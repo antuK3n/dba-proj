@@ -64,12 +64,10 @@ CREATE TABLE Adoption (
     Adoption_ID INT AUTO_INCREMENT PRIMARY KEY,
     Pet_ID INT NOT NULL,
     Adopter_ID INT NOT NULL,
-    Application_Date DATE NOT NULL,
-    Approval_Status ENUM('Pending', 'Approved', 'Denied') DEFAULT 'Pending',
     Adoption_Date DATE,
     Adoption_Fee DECIMAL(10,2),
-    Contract_Signed ENUM('Yes', 'No') DEFAULT 'No',
-    Status ENUM('Applied', 'Completed', 'Returned', 'Cancelled') DEFAULT 'Applied',
+    Contract_Signed ENUM('Yes', 'No') NOT NULL DEFAULT 'No',
+    Status ENUM('Pending', 'Completed', 'Returned', 'Cancelled') NOT NULL DEFAULT 'Pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (Pet_ID) REFERENCES Pet(Pet_ID) ON DELETE CASCADE,
@@ -84,13 +82,13 @@ CREATE TABLE Veterinary_Visit (
     Visit_ID INT AUTO_INCREMENT PRIMARY KEY,
     Pet_ID INT NOT NULL,
     Visit_Date DATE NOT NULL,
-    Veterinarian_Name VARCHAR(100),
+    Veterinarian_Name VARCHAR(100) NOT NULL,
     Visit_Type ENUM('Checkup', 'Vaccination', 'Surgery', 'Treatment', 'Emergency') NOT NULL,
-    Weight DECIMAL(5,2),
-    Temperature DECIMAL(4,2),
-    Diagnosis TEXT,
+    Weight DECIMAL(5,2) NOT NULL,
+    Temperature DECIMAL(4,2) NOT NULL,
+    Diagnosis TEXT NOT NULL,
     General_Notes TEXT,
-    Procedure_Cost DECIMAL(10,2),
+    Procedure_Cost DECIMAL(10,2) NOT NULL,
     Next_Visit_Date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -106,13 +104,13 @@ CREATE TABLE Vaccination (
     Visit_ID INT NOT NULL,
     Vaccine_Name VARCHAR(100) NOT NULL,
     Date_Administered DATE NOT NULL,
-    Administered_By VARCHAR(100),
-    Manufacturer VARCHAR(50),
+    Administered_By VARCHAR(100) NOT NULL,
+    Manufacturer VARCHAR(50) NOT NULL,
     Next_Due_Date DATE,
-    Site VARCHAR(50),
+    Site VARCHAR(50) NOT NULL,
     Reaction TEXT,
-    Status ENUM('Completed', 'Scheduled', 'Overdue') DEFAULT 'Completed',
-    Cost DECIMAL(10,2),
+    Status ENUM('Completed', 'Scheduled', 'Overdue') NOT NULL DEFAULT 'Completed',
+    Cost DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (Visit_ID) REFERENCES Veterinary_Visit(Visit_ID) ON DELETE CASCADE
@@ -184,9 +182,9 @@ INSERT INTO Adopter (Email, Password_Hash, Full_Name, Contact_No, Address, Housi
 ('mike.wilson@email.com', '$2b$10$SRsniIBkNI02OB6IQmAOgukME.UO2vHFbZib4OlmRgRPa3dn9nWHe', 'Mike Wilson', '09191234567', '789 Pine Rd, Makati', 'Condo', 'No', 'No', 'Experienced');
 
 -- Sample Adoptions
-INSERT INTO Adoption (Pet_ID, Adopter_ID, Application_Date, Approval_Status, Adoption_Date, Adoption_Fee, Contract_Signed, Status) VALUES
-(5, 1, '2025-03-15', 'Approved', NULL, 2500.00, 'No', 'Applied'),
-(2, 2, '2025-03-10', 'Pending', NULL, 1500.00, 'No', 'Applied');
+INSERT INTO Adoption (Pet_ID, Adopter_ID, Adoption_Date, Adoption_Fee, Contract_Signed, Status) VALUES
+(5, 1, NULL, 2500.00, 'No', 'Pending'),
+(2, 2, NULL, 1500.00, 'No', 'Pending');
 
 -- Sample Veterinary Visits
 INSERT INTO Veterinary_Visit (Pet_ID, Visit_Date, Veterinarian_Name, Visit_Type, Weight, Temperature, Diagnosis, General_Notes, Procedure_Cost, Next_Visit_Date) VALUES
