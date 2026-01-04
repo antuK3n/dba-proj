@@ -1,0 +1,139 @@
+.adoptions-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.adoptions-page .filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.adoptions-page .filters button {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.adoptions-page .filters button.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.adoptions-table {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.adoptions-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.adoptions-table th,
+.adoptions-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.adoptions-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.pet-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.pet-cell img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.pet-cell div {
+  display: flex;
+  flex-direction: column;
+}
+
+.pet-cell span,
+.adopter-cell span {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.adopter-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.status-badge,
+.approval-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.applied { background: #e3f2fd; color: #1565c0; }
+.status-badge.completed { background: #e8f5e9; color: #2e7d32; }
+.status-badge.returned { background: #fff3e0; color: #ef6c00; }
+.status-badge.cancelled { background: #ffebee; color: #c62828; }
+
+.approval-badge.pending { background: #fff8e1; color: #f57f17; }
+.approval-badge.approved { background: #e8f5e9; color: #2e7d32; }
+.approval-badge.denied { background: #ffebee; color: #c62828; }
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.actions button,
+.actions a {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.btn-approve {
+  background: #4caf50;
+  color: white;
+}
+
+.btn-deny {
+  background: #f44336;
+  color: white;
+}
+
+.btn-complete {
+  background: #2196f3;
+  color: white;
+}
+
+.actions .btn-view {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.actions button:hover,
+.actions a:hover {
+  opacity: 0.85;
+}

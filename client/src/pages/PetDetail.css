@@ -1,0 +1,197 @@
+.pet-detail {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.pet-detail-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.pet-detail-image img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.pet-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pet-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
+}
+
+.status-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.pet-breed {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.pet-attributes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.attribute {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.attribute .label {
+  display: block;
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 0.3rem;
+}
+
+.attribute .value {
+  font-weight: 600;
+  color: #333;
+}
+
+.pet-temperament,
+.pet-special-needs {
+  margin-bottom: 1.5rem;
+}
+
+.pet-temperament h3,
+.pet-special-needs h3 {
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+
+.pet-special-needs {
+  background: #fff3cd;
+  padding: 1rem;
+  border-radius: 10px;
+  border-left: 4px solid #ffc107;
+}
+
+.pet-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-favorite,
+.btn-adopt {
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-favorite {
+  background: #f0f0f0;
+  color: #333;
+  border: 2px solid #ddd;
+}
+
+.btn-favorite:hover {
+  background: #e0e0e0;
+}
+
+.btn-favorite.favorited {
+  background: #ffe0e0;
+  border-color: #f44336;
+  color: #f44336;
+}
+
+.btn-adopt {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  flex: 1;
+}
+
+.btn-adopt:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.btn-adopt:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.vet-history {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 16px;
+}
+
+.vet-history h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.vet-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.vet-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.vet-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.visit-type {
+  background: #667eea;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.85rem;
+}
+
+.visit-date {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.vet-card p {
+  margin: 0.5rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .pet-detail-main {
+    grid-template-columns: 1fr;
+  }
+
+  .pet-actions {
+    flex-direction: column;
+  }
+}
