@@ -1,0 +1,21 @@
+services:
+  - type: pserv
+    name: mysql
+    runtime: docker
+    plan: standard
+    dockerfilePath: ./mysql/Dockerfile
+    dockerContext: ./mysql
+    disk:
+      name: mysql
+      mountPath: /var/lib/mysql
+      sizeGB: 10
+    autoDeploy: false
+    envVars:
+      - key: MYSQL_DATABASE
+        value: pet_adoption_center
+      - key: MYSQL_USER
+        value: admin
+      - key: MYSQL_PASSWORD
+        generateValue: true
+      - key: MYSQL_ROOT_PASSWORD
+        generateValue: true
