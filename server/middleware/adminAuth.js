@@ -19,18 +19,14 @@ const verifyAdmin = async (req, res, next) => {
       return res.status(403).json({ error: 'Access denied. Admin only.' });
     }
 
-    // Verify admin exists and is active
+    // Verify admin exists
     const [admins] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, Role, Is_Active FROM Admin WHERE Admin_ID = ?',
+      'SELECT Admin_ID, Email, Full_Name, Role FROM Admin WHERE Admin_ID = ?',
       [decoded.id]
     );
 
     if (admins.length === 0) {
       return res.status(403).json({ error: 'Admin account not found' });
-    }
-
-    if (!admins[0].Is_Active) {
-      return res.status(403).json({ error: 'Admin account is inactive' });
     }
 
     req.admin = admins[0];

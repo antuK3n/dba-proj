@@ -26,20 +26,10 @@ router.post('/login', async (req, res) => {
 
     const admin = admins[0];
 
-    if (!admin.Is_Active) {
-      return res.status(401).json({ error: 'Account is inactive' });
-    }
-
     const validPassword = await bcrypt.compare(Password, admin.Password_Hash);
     if (!validPassword) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
-
-    // Update last login
-    await pool.query(
-      'UPDATE Admin SET Last_Login = NOW() WHERE Admin_ID = ?',
-      [admin.Admin_ID]
-    );
 
     // Create token with isAdmin flag
     const token = jwt.sign(
@@ -79,16 +69,12 @@ router.get('/me', async (req, res) => {
     }
 
     const [admins] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, Role, Is_Active, Last_Login, created_at FROM Admin WHERE Admin_ID = ?',
+      'SELECT Admin_ID, Email, Full_Name, Role, created_at FROM Admin WHERE Admin_ID = ?',
       [decoded.id]
     );
 
     if (admins.length === 0) {
       return res.status(404).json({ error: 'Admin not found' });
-    }
-
-    if (!admins[0].Is_Active) {
-      return res.status(403).json({ error: 'Account is inactive' });
     }
 
     res.json(admins[0]);

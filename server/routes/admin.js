@@ -572,7 +572,7 @@ router.delete('/vaccinations/:id', async (req, res) => {
 router.get('/users', requireRole('Super Admin'), async (req, res) => {
   try {
     const [rows] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, Role, Is_Active, Last_Login, created_at FROM Admin'
+      'SELECT Admin_ID, Email, Full_Name, Role, created_at FROM Admin'
     );
     res.json(rows);
   } catch (error) {
@@ -592,7 +592,7 @@ router.post('/users', requireRole('Super Admin'), async (req, res) => {
     );
 
     const [newAdmin] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, Role, Is_Active FROM Admin WHERE Admin_ID = ?',
+      'SELECT Admin_ID, Email, Full_Name, Role FROM Admin WHERE Admin_ID = ?',
       [result.insertId]
     );
     res.status(201).json(newAdmin[0]);
@@ -600,28 +600,6 @@ router.post('/users', requireRole('Super Admin'), async (req, res) => {
     if (error.code === 'ER_DUP_ENTRY') {
       return res.status(400).json({ error: 'Email already exists' });
     }
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.put('/users/:id/toggle-active', requireRole('Super Admin'), async (req, res) => {
-  try {
-    const [admin] = await pool.query('SELECT * FROM Admin WHERE Admin_ID = ?', [req.params.id]);
-    if (admin.length === 0) {
-      return res.status(404).json({ error: 'Admin not found' });
-    }
-
-    await pool.query(
-      'UPDATE Admin SET Is_Active = ? WHERE Admin_ID = ?',
-      [!admin[0].Is_Active, req.params.id]
-    );
-
-    const [updated] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, Role, Is_Active FROM Admin WHERE Admin_ID = ?',
-      [req.params.id]
-    );
-    res.json(updated[0]);
-  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });

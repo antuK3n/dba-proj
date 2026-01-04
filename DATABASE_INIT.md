@@ -127,6 +127,7 @@ CREATE TABLE Favorite (
     Adopter_ID INT NOT NULL,
     Pet_ID INT NOT NULL,
     Date_Added DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Notes TEXT,
     FOREIGN KEY (Adopter_ID) REFERENCES Adopter(Adopter_ID) ON DELETE CASCADE,
     FOREIGN KEY (Pet_ID) REFERENCES Pet(Pet_ID) ON DELETE CASCADE,
     UNIQUE KEY unique_favorite (Adopter_ID, Pet_ID)
@@ -142,8 +143,6 @@ CREATE TABLE Admin (
     Password_Hash VARCHAR(255) NOT NULL,
     Full_Name VARCHAR(100) NOT NULL,
     Role ENUM('Super Admin', 'Manager', 'Staff') DEFAULT 'Staff',
-    Is_Active BOOLEAN DEFAULT TRUE,
-    Last_Login DATETIME,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -214,8 +213,8 @@ INSERT INTO Favorite (Adopter_ID, Pet_ID) VALUES
 (3, 8);
 
 -- Sample Admin (password is 'admin123' hashed with bcrypt)
-INSERT INTO Admin (Email, Password_Hash, Full_Name, Role, Is_Active) VALUES
-('admin@petadopt.com', '$2b$10$ykNAFRVUuJvT3X8pwFdD4uVAqNOTzFcJ2x9wUs06RCslNWT028QnG', 'System Admin', 'Super Admin', TRUE);
+INSERT INTO Admin (Email, Password_Hash, Full_Name, Role) VALUES
+('admin@petadopt.com', '$2b$10$ykNAFRVUuJvT3X8pwFdD4uVAqNOTzFcJ2x9wUs06RCslNWT028QnG', 'System Admin', 'Super Admin');
 ```
 
 ## Quick Setup Commands
