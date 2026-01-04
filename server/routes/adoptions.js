@@ -5,7 +5,7 @@ const pool = require('../db');
 // Get all adoptions
 router.get('/', async (req, res) => {
   try {
-    const { status, approval_status } = req.query;
+    const { status } = req.query;
     let query = `
       SELECT a.*, p.Pet_Name, p.Species, p.Breed, p.Photo_URL,
              ad.Full_Name as Adopter_Name, ad.Email as Adopter_Email
@@ -20,12 +20,8 @@ router.get('/', async (req, res) => {
       query += ' AND a.Status = ?';
       params.push(status);
     }
-    if (approval_status) {
-      query += ' AND a.Approval_Status = ?';
-      params.push(approval_status);
-    }
 
-    query += ' ORDER BY a.Application_Date DESC';
+    query += ' ORDER BY a.created_at DESC';
 
     const [rows] = await pool.query(query, params);
     res.json(rows);
@@ -58,7 +54,7 @@ router.get('/:id', async (req, res) => {
 // Create adoption application
 router.post('/', async (req, res) => {
   try {
-    const { Pet_ID, Adopter_ID, Application_Date, Adoption_Fee } = req.body;
+    const { Pet_ID, Adopter_ID, Adoption_Fee } = req.body;
 
     // Check if pet is available
     const [pet] = await pool.query('SELECT Status FROM Pet WHERE Pet_ID = ?', [Pet_ID]);
@@ -70,9 +66,9 @@ router.post('/', async (req, res) => {
     }
 
     const [result] = await pool.query(
-      `INSERT INTO Adoption (Pet_ID, Adopter_ID, Application_Date, Adoption_Fee, Approval_Status, Status)
-       VALUES (?, ?, ?, ?, 'Pending', 'Applied')`,
-      [Pet_ID, Adopter_ID, Application_Date || new Date(), Adoption_Fee]
+      `INSERT INTO Adoption (Pet_ID, Adopter_ID, Adoption_Fee, Status)
+       VALUES (?, ?, ?, 'Pending')`,
+      [Pet_ID, Adopter_ID, Adoption_Fee]
     );
 
     // Update pet status to Reserved
@@ -91,10 +87,10 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Update adoption (approve/deny/complete)
+// Update adoption (complete/cancel)
 router.put('/:id', async (req, res) => {
   try {
-    const { Approval_Status, Adoption_Date, Contract_Signed, Status } = req.body;
+    const { Adoption_Date, Contract_Signed, Status } = req.body;
 
     // Get current adoption to check pet
     const [current] = await pool.query('SELECT Pet_ID FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
@@ -103,15 +99,15 @@ router.put('/:id', async (req, res) => {
     }
 
     await pool.query(
-      `UPDATE Adoption SET Approval_Status = ?, Adoption_Date = ?, Contract_Signed = ?, Status = ?
+      `UPDATE Adoption SET Adoption_Date = ?, Contract_Signed = ?, Status = ?
        WHERE Adoption_ID = ?`,
-      [Approval_Status, Adoption_Date, Contract_Signed, Status, req.params.id]
+      [Adoption_Date, Contract_Signed, Status, req.params.id]
     );
 
     // Update pet status based on adoption status
     if (Status === 'Completed') {
       await pool.query('UPDATE Pet SET Status = ? WHERE Pet_ID = ?', ['Adopted', current[0].Pet_ID]);
-    } else if (Status === 'Cancelled' || Approval_Status === 'Denied') {
+    } else if (Status === 'Cancelled') {
       await pool.query('UPDATE Pet SET Status = ? WHERE Pet_ID = ?', ['Available', current[0].Pet_ID]);
     }
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAdminAdoptions, approveAdoption, denyAdoption, completeAdoption, deleteAdminAdoption } from '../../services/adminApi';
+import { getAdminAdoptions, cancelAdoption, completeAdoption, deleteAdminAdoption } from '../../services/adminApi';
 import './AdminCommon.css';
 
 function AdminAdoptions() {
@@ -22,22 +22,13 @@ function AdminAdoptions() {
     }
   };
 
-  const handleApprove = async (id) => {
-    try {
-      await approveAdoption(id);
-      fetchAdoptions();
-    } catch (error) {
-      alert('Failed to approve adoption');
-    }
-  };
-
-  const handleDeny = async (id) => {
-    if (window.confirm('Are you sure you want to deny this adoption?')) {
+  const handleCancel = async (id) => {
+    if (window.confirm('Are you sure you want to cancel this adoption?')) {
       try {
-        await denyAdoption(id);
+        await cancelAdoption(id);
         fetchAdoptions();
       } catch (error) {
-        alert('Failed to deny adoption');
+        alert('Failed to cancel adoption');
       }
     }
   };
@@ -64,7 +55,7 @@ function AdminAdoptions() {
 
   const filteredAdoptions = adoptions.filter((a) => {
     if (filter === 'all') return true;
-    return a.Approval_Status.toLowerCase() === filter;
+    return a.Status.toLowerCase() === filter;
   });
 
   if (loading) return <div className="admin-loading">Loading adoptions...</div>;
@@ -83,13 +74,13 @@ function AdminAdoptions() {
           All ({adoptions.length})
         </button>
         <button className={filter === 'pending' ? 'active' : ''} onClick={() => setFilter('pending')}>
-          Pending ({adoptions.filter(a => a.Approval_Status === 'Pending').length})
+          Pending ({adoptions.filter(a => a.Status === 'Pending').length})
         </button>
-        <button className={filter === 'approved' ? 'active' : ''} onClick={() => setFilter('approved')}>
-          Approved ({adoptions.filter(a => a.Approval_Status === 'Approved').length})
+        <button className={filter === 'completed' ? 'active' : ''} onClick={() => setFilter('completed')}>
+          Completed ({adoptions.filter(a => a.Status === 'Completed').length})
         </button>
-        <button className={filter === 'denied' ? 'active' : ''} onClick={() => setFilter('denied')}>
-          Denied ({adoptions.filter(a => a.Approval_Status === 'Denied').length})
+        <button className={filter === 'cancelled' ? 'active' : ''} onClick={() => setFilter('cancelled')}>
+          Cancelled ({adoptions.filter(a => a.Status === 'Cancelled').length})
         </button>
       </div>
 
@@ -100,10 +91,9 @@ function AdminAdoptions() {
               <th>Pet</th>
               <th>Adopter</th>
               <th>Contact</th>
-              <th>Applied</th>
               <th>Fee</th>
-              <th>Approval</th>
               <th>Status</th>
+              <th>Adoption Date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -130,28 +120,20 @@ function AdminAdoptions() {
                   </div>
                 </td>
                 <td>{adoption.Contact_No || '-'}</td>
-                <td>{new Date(adoption.Application_Date).toLocaleDateString()}</td>
                 <td>P{adoption.Adoption_Fee?.toLocaleString() || '0'}</td>
-                <td>
-                  <span className={`badge ${adoption.Approval_Status.toLowerCase()}`}>
-                    {adoption.Approval_Status}
-                  </span>
-                </td>
                 <td>
                   <span className={`badge ${adoption.Status.toLowerCase()}`}>
                     {adoption.Status}
                   </span>
                 </td>
+                <td>{adoption.Adoption_Date ? new Date(adoption.Adoption_Date).toLocaleDateString() : '-'}</td>
                 <td>
                   <div className="action-btns">
-                    {adoption.Approval_Status === 'Pending' && (
+                    {adoption.Status === 'Pending' && (
                       <>
-                        <button className="btn-approve" onClick={() => handleApprove(adoption.Adoption_ID)}>Approve</button>
-                        <button className="btn-deny" onClick={() => handleDeny(adoption.Adoption_ID)}>Deny</button>
+                        <button className="btn-complete" onClick={() => handleComplete(adoption.Adoption_ID)}>Complete</button>
+                        <button className="btn-deny" onClick={() => handleCancel(adoption.Adoption_ID)}>Cancel</button>
                       </>
-                    )}
-                    {adoption.Approval_Status === 'Approved' && adoption.Status !== 'Completed' && (
-                      <button className="btn-complete" onClick={() => handleComplete(adoption.Adoption_ID)}>Complete</button>
                     )}
                     <button className="btn-delete" onClick={() => handleDelete(adoption.Adoption_ID)}>Delete</button>
                   </div>

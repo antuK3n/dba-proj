@@ -90,12 +90,12 @@ function Dashboard() {
                   <h3>{adoption.Pet_Name}</h3>
                   <p>{adoption.Species} - {adoption.Breed}</p>
                   <p className="application-date">
-                    Applied: {new Date(adoption.Application_Date).toLocaleDateString()}
+                    Applied: {new Date(adoption.created_at).toLocaleDateString()}
                   </p>
                 </div>
                 <div className="application-status">
-                  <span className={`status ${adoption.Approval_Status.toLowerCase()}`}>
-                    {adoption.Approval_Status}
+                  <span className={`status ${adoption.Status.toLowerCase()}`}>
+                    {adoption.Status}
                   </span>
                 </div>
               </div>

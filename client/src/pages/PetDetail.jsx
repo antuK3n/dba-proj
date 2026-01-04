@@ -55,7 +55,6 @@ function PetDetail() {
       await createAdoption({
         Pet_ID: pet.Pet_ID,
         Adopter_ID: user.Adopter_ID,
-        Application_Date: new Date().toISOString().split('T')[0],
         Adoption_Fee: 2000.00,
       });
       alert('Application submitted successfully!');

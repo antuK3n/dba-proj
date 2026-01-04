@@ -25,11 +25,10 @@ function Adoptions() {
     }
   };
 
-  const handleStatusUpdate = async (id, status, approvalStatus) => {
+  const handleStatusUpdate = async (id, status) => {
     try {
       await updateAdoption(id, {
         Status: status,
-        Approval_Status: approvalStatus,
         Adoption_Date: status === 'Completed' ? new Date().toISOString().split('T')[0] : null,
         Contract_Signed: status === 'Completed' ? 'Yes' : 'No',
       });
@@ -41,7 +40,7 @@ function Adoptions() {
 
   const filteredAdoptions = adoptions.filter((a) => {
     if (filter === 'all') return true;
-    return a.Approval_Status.toLowerCase() === filter;
+    return a.Status.toLowerCase() === filter;
   });
 
   if (loading) return <div className="loading">Loading...</div>;
@@ -64,19 +63,19 @@ function Adoptions() {
           className={filter === 'pending' ? 'active' : ''}
           onClick={() => setFilter('pending')}
         >
-          Pending ({adoptions.filter(a => a.Approval_Status === 'Pending').length})
+          Pending ({adoptions.filter(a => a.Status === 'Pending').length})
         </button>
         <button
-          className={filter === 'approved' ? 'active' : ''}
-          onClick={() => setFilter('approved')}
+          className={filter === 'completed' ? 'active' : ''}
+          onClick={() => setFilter('completed')}
         >
-          Approved ({adoptions.filter(a => a.Approval_Status === 'Approved').length})
+          Completed ({adoptions.filter(a => a.Status === 'Completed').length})
         </button>
         <button
-          className={filter === 'denied' ? 'active' : ''}
-          onClick={() => setFilter('denied')}
+          className={filter === 'cancelled' ? 'active' : ''}
+          onClick={() => setFilter('cancelled')}
         >
-          Denied ({adoptions.filter(a => a.Approval_Status === 'Denied').length})
+          Cancelled ({adoptions.filter(a => a.Status === 'Cancelled').length})
         </button>
       </div>
 
@@ -91,9 +90,9 @@ function Adoptions() {
               <tr>
                 <th>Pet</th>
                 <th>Adopter</th>
-                <th>Application Date</th>
+                <th>Fee</th>
                 <th>Status</th>
-                <th>Approval</th>
+                <th>Adoption Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -118,42 +117,34 @@ function Adoptions() {
                       <span>{adoption.Adopter_Email}</span>
                     </div>
                   </td>
-                  <td>{new Date(adoption.Application_Date).toLocaleDateString()}</td>
+                  <td>P{adoption.Adoption_Fee?.toLocaleString() || '0'}</td>
                   <td>
                     <span className={`status-badge ${adoption.Status.toLowerCase()}`}>
                       {adoption.Status}
                     </span>
                   </td>
                   <td>
-                    <span className={`approval-badge ${adoption.Approval_Status.toLowerCase()}`}>
-                      {adoption.Approval_Status}
-                    </span>
+                    {adoption.Adoption_Date
+                      ? new Date(adoption.Adoption_Date).toLocaleDateString()
+                      : '-'}
                   </td>
                   <td>
                     <div className="actions">
-                      {adoption.Approval_Status === 'Pending' && (
+                      {adoption.Status === 'Pending' && (
                         <>
                           <button
-                            className="btn-approve"
-                            onClick={() => handleStatusUpdate(adoption.Adoption_ID, 'Applied', 'Approved')}
+                            className="btn-complete"
+                            onClick={() => handleStatusUpdate(adoption.Adoption_ID, 'Completed')}
                           >
-                            Approve
+                            Complete
                           </button>
                           <button
                             className="btn-deny"
-                            onClick={() => handleStatusUpdate(adoption.Adoption_ID, 'Cancelled', 'Denied')}
+                            onClick={() => handleStatusUpdate(adoption.Adoption_ID, 'Cancelled')}
                           >
-                            Deny
+                            Cancel
                           </button>
                         </>
-                      )}
-                      {adoption.Approval_Status === 'Approved' && adoption.Status !== 'Completed' && (
-                        <button
-                          className="btn-complete"
-                          onClick={() => handleStatusUpdate(adoption.Adoption_ID, 'Completed', 'Approved')}
-                        >
-                          Complete
-                        </button>
                       )}
                       <Link to={`/pets/${adoption.Pet_ID}`} className="btn-view">
                         View Pet

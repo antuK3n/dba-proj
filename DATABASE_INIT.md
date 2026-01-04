@@ -149,7 +149,7 @@ CREATE TABLE Admin (
 -- =============================================
 CREATE INDEX idx_pet_status ON Pet(Status);
 CREATE INDEX idx_pet_species ON Pet(Species);
-CREATE INDEX idx_adoption_status ON Adoption(Approval_Status);
+CREATE INDEX idx_adoption_status ON Adoption(Status);
 CREATE INDEX idx_adoption_pet ON Adoption(Pet_ID);
 CREATE INDEX idx_adoption_adopter ON Adoption(Adopter_ID);
 CREATE INDEX idx_vet_visit_pet ON Veterinary_Visit(Pet_ID);

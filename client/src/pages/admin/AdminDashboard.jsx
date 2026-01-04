@@ -113,8 +113,8 @@ function AdminDashboard() {
                     <strong>{adoption.Pet_Name}</strong>
                     <span>by {adoption.Adopter_Name}</span>
                   </div>
-                  <span className={`status ${adoption.Approval_Status.toLowerCase()}`}>
-                    {adoption.Approval_Status}
+                  <span className={`status ${adoption.Status.toLowerCase()}`}>
+                    {adoption.Status}
                   </span>
                 </div>
               ))

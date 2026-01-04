@@ -41,8 +41,7 @@ export const deleteAdminAdopter = (id) => adminApi.delete(`/adopters/${id}`);
 
 // Adoptions
 export const getAdminAdoptions = (params) => adminApi.get('/adoptions', { params });
-export const approveAdoption = (id) => adminApi.put(`/adoptions/${id}/approve`);
-export const denyAdoption = (id) => adminApi.put(`/adoptions/${id}/deny`);
+export const cancelAdoption = (id) => adminApi.put(`/adoptions/${id}/cancel`);
 export const completeAdoption = (id) => adminApi.put(`/adoptions/${id}/complete`);
 export const deleteAdminAdoption = (id) => adminApi.delete(`/adoptions/${id}`);
 

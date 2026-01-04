@@ -29,10 +29,10 @@ router.get('/dashboard/stats', async (req, res) => {
     const [[adoptionStats]] = await pool.query(`
       SELECT
         COUNT(*) as total_adoptions,
-        SUM(Approval_Status = 'Pending') as pending,
-        SUM(Approval_Status = 'Approved') as approved,
-        SUM(Approval_Status = 'Denied') as denied,
-        SUM(Status = 'Completed') as completed
+        SUM(Status = 'Pending') as pending,
+        SUM(Status = 'Completed') as completed,
+        SUM(Status = 'Cancelled') as cancelled,
+        SUM(Status = 'Returned') as returned
       FROM Adoption
     `);
 
@@ -270,7 +270,7 @@ router.delete('/adopters/:id', async (req, res) => {
 // =============================================
 router.get('/adoptions', async (req, res) => {
   try {
-    const { status, approval_status } = req.query;
+    const { status } = req.query;
     let query = `
       SELECT a.*, p.Pet_Name, p.Species, p.Breed, p.Photo_URL,
              ad.Full_Name as Adopter_Name, ad.Email as Adopter_Email, ad.Contact_No
@@ -285,12 +285,8 @@ router.get('/adoptions', async (req, res) => {
       query += ' AND a.Status = ?';
       params.push(status);
     }
-    if (approval_status) {
-      query += ' AND a.Approval_Status = ?';
-      params.push(approval_status);
-    }
 
-    query += ' ORDER BY a.Application_Date DESC';
+    query += ' ORDER BY a.created_at DESC';
     const [rows] = await pool.query(query, params);
     res.json(rows);
   } catch (error) {
@@ -298,7 +294,7 @@ router.get('/adoptions', async (req, res) => {
   }
 });
 
-router.put('/adoptions/:id/approve', async (req, res) => {
+router.put('/adoptions/:id/cancel', async (req, res) => {
   try {
     const [adoption] = await pool.query('SELECT * FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
     if (adoption.length === 0) {
@@ -306,29 +302,7 @@ router.put('/adoptions/:id/approve', async (req, res) => {
     }
 
     await pool.query(
-      `UPDATE Adoption SET Approval_Status = 'Approved' WHERE Adoption_ID = ?`,
-      [req.params.id]
-    );
-
-    const [updated] = await pool.query(
-      `SELECT a.*, p.Pet_Name FROM Adoption a JOIN Pet p ON a.Pet_ID = p.Pet_ID WHERE a.Adoption_ID = ?`,
-      [req.params.id]
-    );
-    res.json(updated[0]);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.put('/adoptions/:id/deny', async (req, res) => {
-  try {
-    const [adoption] = await pool.query('SELECT * FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
-    if (adoption.length === 0) {
-      return res.status(404).json({ error: 'Adoption not found' });
-    }
-
-    await pool.query(
-      `UPDATE Adoption SET Approval_Status = 'Denied', Status = 'Cancelled' WHERE Adoption_ID = ?`,
+      `UPDATE Adoption SET Status = 'Cancelled' WHERE Adoption_ID = ?`,
       [req.params.id]
     );
 
