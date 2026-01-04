@@ -166,50 +166,50 @@ CREATE INDEX idx_admin_email ON Admin(Email);
 
 -- Sample Pets
 INSERT INTO Pet (Pet_Name, Species, Breed, Age, Gender, Color, Date_Arrived, Vaccination_Status, Spayed_Neutered, Temperament, Special_Needs, Photo_URL, Status) VALUES
-('Buddy', 'Dog', 'Golden Retriever', '3 years', 'Male', 'Golden', '2024-01-15', 'Up-to-date', 'Yes', 'Friendly, Playful', NULL, 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400', 'Available'),
-('Luna', 'Cat', 'Persian', '2 years', 'Female', 'White', '2024-02-20', 'Up-to-date', 'Yes', 'Calm, Affectionate', NULL, 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400', 'Available'),
-('Max', 'Dog', 'German Shepherd', '4 years', 'Male', 'Black and Tan', '2024-01-10', 'Up-to-date', 'Yes', 'Loyal, Protective', NULL, 'https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=400', 'Available'),
-('Whiskers', 'Cat', 'Tabby', '1 year', 'Male', 'Orange Tabby', '2024-03-01', 'Incomplete', 'No', 'Playful, Curious', NULL, 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=400', 'Available'),
-('Bella', 'Dog', 'Labrador', '2 years', 'Female', 'Chocolate', '2024-02-10', 'Up-to-date', 'Yes', 'Gentle, Good with kids', NULL, 'https://images.unsplash.com/photo-1579168765467-3b235f938439?w=400', 'Reserved'),
-('Mittens', 'Cat', 'Siamese', '3 years', 'Female', 'Cream and Brown', '2024-01-25', 'Up-to-date', 'Yes', 'Vocal, Social', NULL, 'https://images.unsplash.com/photo-1513245543132-31f507417b26?w=400', 'Available'),
-('Rocky', 'Dog', 'Bulldog', '5 years', 'Male', 'Brindle', '2024-02-28', 'Overdue', 'Yes', 'Calm, Stubborn', 'Requires special diet', 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400', 'Medical Hold'),
-('Shadow', 'Cat', 'Black Shorthair', '4 years', 'Male', 'Black', '2024-03-05', 'Up-to-date', 'Yes', 'Independent, Mysterious', NULL, 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=400', 'Available'),
-('Daisy', 'Dog', 'Beagle', '1 year', 'Female', 'Tricolor', '2024-03-10', 'Incomplete', 'No', 'Energetic, Friendly', NULL, 'https://images.unsplash.com/photo-1505628346881-b72b27e84530?w=400', 'Available'),
-('Oliver', 'Cat', 'Maine Coon', '2 years', 'Male', 'Brown Tabby', '2024-02-15', 'Up-to-date', 'Yes', 'Gentle Giant, Playful', NULL, 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=400', 'Available');
+('Buddy', 'Dog', 'Golden Retriever', '3 years', 'Male', 'Golden', '2025-01-15', 'Up-to-date', 'Yes', 'Friendly, Playful', NULL, 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400', 'Available'),
+('Luna', 'Cat', 'Persian', '2 years', 'Female', 'White', '2025-02-20', 'Up-to-date', 'Yes', 'Calm, Affectionate', NULL, 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400', 'Available'),
+('Max', 'Dog', 'German Shepherd', '4 years', 'Male', 'Black and Tan', '2025-01-10', 'Up-to-date', 'Yes', 'Loyal, Protective', NULL, 'https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=400', 'Available'),
+('Whiskers', 'Cat', 'Tabby', '1 year', 'Male', 'Orange Tabby', '2025-03-01', 'Incomplete', 'No', 'Playful, Curious', NULL, 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=400', 'Available'),
+('Bella', 'Dog', 'Labrador', '2 years', 'Female', 'Chocolate', '2025-02-10', 'Up-to-date', 'Yes', 'Gentle, Good with kids', NULL, 'https://images.unsplash.com/photo-1579168765467-3b235f938439?w=400', 'Reserved'),
+('Mittens', 'Cat', 'Siamese', '3 years', 'Female', 'Cream and Brown', '2025-01-25', 'Up-to-date', 'Yes', 'Vocal, Social', NULL, 'https://images.unsplash.com/photo-1513245543132-31f507417b26?w=400', 'Available'),
+('Rocky', 'Dog', 'Bulldog', '5 years', 'Male', 'Brindle', '2025-02-28', 'Overdue', 'Yes', 'Calm, Stubborn', 'Requires special diet', 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400', 'Medical Hold'),
+('Shadow', 'Cat', 'Black Shorthair', '4 years', 'Male', 'Black', '2025-03-05', 'Up-to-date', 'Yes', 'Independent, Mysterious', NULL, 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=400', 'Available'),
+('Daisy', 'Dog', 'Beagle', '1 year', 'Female', 'Tricolor', '2025-03-10', 'Incomplete', 'No', 'Energetic, Friendly', NULL, 'https://images.unsplash.com/photo-1505628346881-b72b27e84530?w=400', 'Available'),
+('Oliver', 'Cat', 'Maine Coon', '2 years', 'Male', 'Brown Tabby', '2025-02-15', 'Up-to-date', 'Yes', 'Gentle Giant, Playful', NULL, 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=400', 'Available');
 
--- Sample Adopters (passwords are hashed versions of 'password123')
+-- Sample Adopters (password is 'password123' hashed with bcrypt)
 INSERT INTO Adopter (Email, Password_Hash, Full_Name, Contact_No, Address, Housing_Type, Has_Other_Pets, Has_Children, Experience_Level) VALUES
-('john.doe@email.com', '$2b$10$rG8X5f5xyD5W5z5z5z5z5uJ5z5z5z5z5z5z5z5z5z5z5z5z5z5z5z', 'John Doe', '09171234567', '123 Main St, Manila', 'House', 'No', 'Yes', 'Experienced'),
-('jane.smith@email.com', '$2b$10$rG8X5f5xyD5W5z5z5z5z5uJ5z5z5z5z5z5z5z5z5z5z5z5z5z5z5z', 'Jane Smith', '09181234567', '456 Oak Ave, Quezon City', 'Apartment', 'Yes', 'No', 'First-time'),
-('mike.wilson@email.com', '$2b$10$rG8X5f5xyD5W5z5z5z5z5uJ5z5z5z5z5z5z5z5z5z5z5z5z5z5z5z', 'Mike Wilson', '09191234567', '789 Pine Rd, Makati', 'Condo', 'No', 'No', 'Experienced');
+('john.doe@email.com', '$2b$10$SRsniIBkNI02OB6IQmAOgukME.UO2vHFbZib4OlmRgRPa3dn9nWHe', 'John Doe', '09171234567', '123 Main St, Manila', 'House', 'No', 'Yes', 'Experienced'),
+('jane.smith@email.com', '$2b$10$SRsniIBkNI02OB6IQmAOgukME.UO2vHFbZib4OlmRgRPa3dn9nWHe', 'Jane Smith', '09181234567', '456 Oak Ave, Quezon City', 'Apartment', 'Yes', 'No', 'First-time'),
+('mike.wilson@email.com', '$2b$10$SRsniIBkNI02OB6IQmAOgukME.UO2vHFbZib4OlmRgRPa3dn9nWHe', 'Mike Wilson', '09191234567', '789 Pine Rd, Makati', 'Condo', 'No', 'No', 'Experienced');
 
 -- Sample Adoptions
 INSERT INTO Adoption (Pet_ID, Adopter_ID, Application_Date, Approval_Status, Adoption_Date, Adoption_Fee, Contract_Signed, Status) VALUES
-(5, 1, '2024-03-15', 'Approved', NULL, 2500.00, 'No', 'Applied'),
-(2, 2, '2024-03-10', 'Pending', NULL, 1500.00, 'No', 'Applied');
+(5, 1, '2025-03-15', 'Approved', NULL, 2500.00, 'No', 'Applied'),
+(2, 2, '2025-03-10', 'Pending', NULL, 1500.00, 'No', 'Applied');
 
 -- Sample Veterinary Visits
 INSERT INTO Veterinary_Visit (Pet_ID, Visit_Date, Veterinarian_Name, Visit_Type, Weight, Temperature, Diagnosis, General_Notes, Procedure_Cost, Next_Visit_Date) VALUES
-(1, '2024-01-20', 'Dr. Santos', 'Checkup', 28.50, 38.50, 'Healthy', 'Regular checkup, all vitals normal', 500.00, '2024-04-20'),
-(1, '2024-02-15', 'Dr. Santos', 'Vaccination', 29.00, 38.30, NULL, 'Annual vaccination administered', 1200.00, '2025-02-15'),
-(2, '2024-02-25', 'Dr. Reyes', 'Checkup', 4.20, 38.80, 'Healthy', 'Good condition', 500.00, '2024-05-25'),
-(3, '2024-01-15', 'Dr. Santos', 'Checkup', 32.00, 38.60, 'Healthy', 'Strong and active', 500.00, '2024-04-15'),
-(7, '2024-03-01', 'Dr. Cruz', 'Treatment', 25.00, 39.20, 'Mild skin allergy', 'Prescribed medication, special diet recommended', 1500.00, '2024-03-15');
+(1, '2025-01-20', 'Dr. Santos', 'Checkup', 28.50, 38.50, 'Healthy', 'Regular checkup, all vitals normal', 500.00, '2025-04-20'),
+(1, '2025-02-15', 'Dr. Santos', 'Vaccination', 29.00, 38.30, NULL, 'Annual vaccination administered', 1200.00, '2026-02-15'),
+(2, '2025-02-25', 'Dr. Reyes', 'Checkup', 4.20, 38.80, 'Healthy', 'Good condition', 500.00, '2025-05-25'),
+(3, '2025-01-15', 'Dr. Santos', 'Checkup', 32.00, 38.60, 'Healthy', 'Strong and active', 500.00, '2025-04-15'),
+(7, '2025-03-01', 'Dr. Cruz', 'Treatment', 25.00, 39.20, 'Mild skin allergy', 'Prescribed medication, special diet recommended', 1500.00, '2025-03-15');
 
 -- Sample Vaccinations
 INSERT INTO Vaccination (Visit_ID, Vaccine_Name, Date_Administered, Administered_By, Manufacturer, Next_Due_Date, Site, Reaction, Status, Cost) VALUES
-(2, 'Rabies', '2024-02-15', 'Dr. Santos', 'Zoetis', '2025-02-15', 'Left shoulder', NULL, 'Completed', 600.00),
-(2, 'DHPP', '2024-02-15', 'Dr. Santos', 'Nobivac', '2025-02-15', 'Right hip', NULL, 'Completed', 600.00),
-(3, 'FVRCP', '2024-02-25', 'Dr. Reyes', 'Purevax', '2025-02-25', 'Left shoulder', NULL, 'Completed', 500.00),
-(3, 'Rabies', '2024-02-25', 'Dr. Reyes', 'Zoetis', '2025-02-25', 'Right hip', NULL, 'Completed', 500.00);
+(2, 'Rabies', '2025-02-15', 'Dr. Santos', 'Zoetis', '2026-02-15', 'Left shoulder', NULL, 'Completed', 600.00),
+(2, 'DHPP', '2025-02-15', 'Dr. Santos', 'Nobivac', '2026-02-15', 'Right hip', NULL, 'Completed', 600.00),
+(3, 'FVRCP', '2025-02-25', 'Dr. Reyes', 'Purevax', '2026-02-25', 'Left shoulder', NULL, 'Completed', 500.00),
+(3, 'Rabies', '2025-02-25', 'Dr. Reyes', 'Zoetis', '2026-02-25', 'Right hip', NULL, 'Completed', 500.00);
 
--- Sample Favorites
-INSERT INTO Favorite (Adopter_ID, Pet_ID) VALUES
-(1, 1),
-(1, 3),
-(2, 6),
-(3, 4),
-(3, 8);
+-- Sample Favorites (with Notes)
+INSERT INTO Favorite (Adopter_ID, Pet_ID, Notes) VALUES
+(1, 1, 'Perfect for our backyard, kids will love him'),
+(1, 3, 'Great guard dog potential'),
+(2, 6, 'Love the vocal personality'),
+(3, 4, 'Reminds me of my childhood cat'),
+(3, 8, NULL);
 
 -- Sample Admin (password is 'admin123' hashed with bcrypt)
 INSERT INTO Admin (Email, Password_Hash, Full_Name) VALUES
