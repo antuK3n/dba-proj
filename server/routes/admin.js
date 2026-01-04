@@ -132,17 +132,16 @@ router.post('/pets', async (req, res) => {
   try {
     const {
       Pet_Name, Species, Breed, Age, Gender, Color, Date_Arrived,
-      Vaccination_Status, Spayed_Neutered, Temperament, Special_Needs,
+      Spayed_Neutered, Temperament, Special_Needs,
       Photo_URL, Status
     } = req.body;
 
     const [result] = await pool.query(
       `INSERT INTO Pet (Pet_Name, Species, Breed, Age, Gender, Color, Date_Arrived,
-        Vaccination_Status, Spayed_Neutered, Temperament, Special_Needs, Photo_URL, Status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        Spayed_Neutered, Temperament, Special_Needs, Photo_URL, Status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [Pet_Name, Species, Breed, Age, Gender, Color, Date_Arrived,
-        Vaccination_Status || 'None', Spayed_Neutered || 'No', Temperament,
-        Special_Needs, Photo_URL, Status || 'Available']
+        Spayed_Neutered, Temperament, Special_Needs, Photo_URL, Status]
     );
 
     const [newPet] = await pool.query('SELECT * FROM Pet WHERE Pet_ID = ?', [result.insertId]);
@@ -156,17 +155,17 @@ router.put('/pets/:id', async (req, res) => {
   try {
     const {
       Pet_Name, Species, Breed, Age, Gender, Color, Date_Arrived,
-      Vaccination_Status, Spayed_Neutered, Temperament, Special_Needs,
+      Spayed_Neutered, Temperament, Special_Needs,
       Photo_URL, Status
     } = req.body;
 
     await pool.query(
       `UPDATE Pet SET Pet_Name = ?, Species = ?, Breed = ?, Age = ?, Gender = ?,
-        Color = ?, Date_Arrived = ?, Vaccination_Status = ?, Spayed_Neutered = ?,
+        Color = ?, Date_Arrived = ?, Spayed_Neutered = ?,
         Temperament = ?, Special_Needs = ?, Photo_URL = ?, Status = ?
        WHERE Pet_ID = ?`,
       [Pet_Name, Species, Breed, Age, Gender, Color, Date_Arrived,
-        Vaccination_Status, Spayed_Neutered, Temperament, Special_Needs,
+        Spayed_Neutered, Temperament, Special_Needs,
         Photo_URL, Status, req.params.id]
     );
 

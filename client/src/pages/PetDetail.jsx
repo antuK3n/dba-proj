@@ -132,10 +132,6 @@ function PetDetail() {
               <span className="value">{pet.Spayed_Neutered}</span>
             </div>
             <div className="attribute">
-              <span className="label">Vaccination</span>
-              <span className="value">{pet.Vaccination_Status}</span>
-            </div>
-            <div className="attribute">
               <span className="label">Arrived</span>
               <span className="value">{new Date(pet.Date_Arrived).toLocaleDateString()}</span>
             </div>

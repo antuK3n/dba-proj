@@ -11,7 +11,7 @@ function AdminPets() {
   const [formData, setFormData] = useState({
     Pet_Name: '', Species: 'Dog', Breed: '', Age: '', Gender: 'Male',
     Color: '', Date_Arrived: new Date().toISOString().split('T')[0],
-    Vaccination_Status: 'None', Spayed_Neutered: 'No', Temperament: '',
+    Spayed_Neutered: 'No', Temperament: '',
     Special_Needs: '', Photo_URL: '', Status: 'Available'
   });
 
@@ -43,7 +43,7 @@ function AdminPets() {
     setFormData({
       Pet_Name: '', Species: 'Dog', Breed: '', Age: '', Gender: 'Male',
       Color: '', Date_Arrived: new Date().toISOString().split('T')[0],
-      Vaccination_Status: 'None', Spayed_Neutered: 'No', Temperament: '',
+      Spayed_Neutered: 'No', Temperament: '',
       Special_Needs: '', Photo_URL: '', Status: 'Available'
     });
     setShowModal(true);
@@ -55,7 +55,7 @@ function AdminPets() {
       Pet_Name: pet.Pet_Name, Species: pet.Species, Breed: pet.Breed || '',
       Age: pet.Age || '', Gender: pet.Gender, Color: pet.Color || '',
       Date_Arrived: pet.Date_Arrived?.split('T')[0] || '',
-      Vaccination_Status: pet.Vaccination_Status, Spayed_Neutered: pet.Spayed_Neutered,
+      Spayed_Neutered: pet.Spayed_Neutered,
       Temperament: pet.Temperament || '', Special_Needs: pet.Special_Needs || '',
       Photo_URL: pet.Photo_URL || '', Status: pet.Status
     });
@@ -224,23 +224,12 @@ function AdminPets() {
                   </select>
                 </div>
               </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Vaccination Status</label>
-                  <select name="Vaccination_Status" value={formData.Vaccination_Status} onChange={handleChange}>
-                    <option value="None">None</option>
-                    <option value="Incomplete">Incomplete</option>
-                    <option value="Up-to-date">Up-to-date</option>
-                    <option value="Overdue">Overdue</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Spayed/Neutered</label>
-                  <select name="Spayed_Neutered" value={formData.Spayed_Neutered} onChange={handleChange}>
-                    <option value="No">No</option>
-                    <option value="Yes">Yes</option>
-                  </select>
-                </div>
+              <div className="form-group">
+                <label>Spayed/Neutered</label>
+                <select name="Spayed_Neutered" value={formData.Spayed_Neutered} onChange={handleChange}>
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
               </div>
               <div className="form-group">
                 <label>Temperament</label>

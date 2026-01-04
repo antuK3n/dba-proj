@@ -22,19 +22,16 @@ CREATE TABLE Pet (
     Pet_ID INT AUTO_INCREMENT PRIMARY KEY,
     Pet_Name VARCHAR(50) NOT NULL,
     Species VARCHAR(30) NOT NULL,
-    Breed VARCHAR(50),
-    Age VARCHAR(20),
+    Breed VARCHAR(50) NOT NULL,
+    Age VARCHAR(20) NOT NULL,
     Gender ENUM('Male', 'Female') NOT NULL,
-    Color VARCHAR(50),
+    Color VARCHAR(50) NOT NULL,
     Date_Arrived DATE NOT NULL,
-    Vaccination_Status ENUM('Up-to-date', 'Overdue', 'Incomplete', 'None') DEFAULT 'None',
-    Spayed_Neutered ENUM('Yes', 'No') DEFAULT 'No',
-    Temperament VARCHAR(100),
+    Spayed_Neutered ENUM('Yes', 'No') NOT NULL,
+    Temperament VARCHAR(100) NOT NULL,
     Special_Needs TEXT,
     Photo_URL VARCHAR(255),
-    Status ENUM('Available', 'Adopted', 'Reserved', 'Medical Hold') DEFAULT 'Available',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Status ENUM('Available', 'Adopted', 'Reserved', 'Medical Hold') NOT NULL
 );
 
 -- =============================================
@@ -46,14 +43,12 @@ CREATE TABLE Adopter (
     Email VARCHAR(100) NOT NULL UNIQUE,
     Password_Hash VARCHAR(255) NOT NULL,
     Full_Name VARCHAR(100) NOT NULL,
-    Contact_No VARCHAR(15),
-    Address VARCHAR(200),
-    Housing_Type ENUM('House', 'Apartment', 'Condo', 'Farm'),
-    Has_Other_Pets ENUM('Yes', 'No') DEFAULT 'No',
-    Has_Children ENUM('Yes', 'No') DEFAULT 'No',
-    Experience_Level ENUM('First-time', 'Experienced') DEFAULT 'First-time',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Contact_No VARCHAR(15) NOT NULL,
+    Address VARCHAR(200) NOT NULL,
+    Housing_Type ENUM('House', 'Apartment', 'Condo', 'Farm') NOT NULL,
+    Has_Other_Pets ENUM('Yes', 'No') NOT NULL,
+    Has_Children ENUM('Yes', 'No') NOT NULL,
+    Experience_Level ENUM('First-time', 'Experienced') NOT NULL
 );
 
 -- =============================================
@@ -66,10 +61,8 @@ CREATE TABLE Adoption (
     Adopter_ID INT NOT NULL,
     Adoption_Date DATE,
     Adoption_Fee DECIMAL(10,2),
-    Contract_Signed ENUM('Yes', 'No') NOT NULL DEFAULT 'No',
-    Status ENUM('Pending', 'Completed', 'Returned', 'Cancelled') NOT NULL DEFAULT 'Pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    Contract_Signed ENUM('Yes', 'No') NOT NULL,
+    Status ENUM('Completed', 'Pending', 'Returned', 'Cancelled') NOT NULL,
     FOREIGN KEY (Pet_ID) REFERENCES Pet(Pet_ID) ON DELETE CASCADE,
     FOREIGN KEY (Adopter_ID) REFERENCES Adopter(Adopter_ID) ON DELETE CASCADE
 );
@@ -90,8 +83,6 @@ CREATE TABLE Veterinary_Visit (
     General_Notes TEXT,
     Procedure_Cost DECIMAL(10,2) NOT NULL,
     Next_Visit_Date DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (Pet_ID) REFERENCES Pet(Pet_ID) ON DELETE CASCADE
 );
 
@@ -109,10 +100,8 @@ CREATE TABLE Vaccination (
     Next_Due_Date DATE,
     Site VARCHAR(50) NOT NULL,
     Reaction TEXT,
-    Status ENUM('Completed', 'Scheduled', 'Overdue') NOT NULL DEFAULT 'Completed',
+    Status ENUM('Completed', 'Scheduled', 'Overdue') NOT NULL,
     Cost DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (Visit_ID) REFERENCES Veterinary_Visit(Visit_ID) ON DELETE CASCADE
 );
 
@@ -124,7 +113,7 @@ CREATE TABLE Favorite (
     Favorite_ID INT AUTO_INCREMENT PRIMARY KEY,
     Adopter_ID INT NOT NULL,
     Pet_ID INT NOT NULL,
-    Date_Added DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Date_Added DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Notes TEXT,
     FOREIGN KEY (Adopter_ID) REFERENCES Adopter(Adopter_ID) ON DELETE CASCADE,
     FOREIGN KEY (Pet_ID) REFERENCES Pet(Pet_ID) ON DELETE CASCADE,
@@ -139,9 +128,7 @@ CREATE TABLE Admin (
     Admin_ID INT AUTO_INCREMENT PRIMARY KEY,
     Email VARCHAR(255) NOT NULL UNIQUE,
     Password_Hash VARCHAR(255) NOT NULL,
-    Full_Name VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    Full_Name VARCHAR(100) NOT NULL
 );
 
 -- =============================================
@@ -163,17 +150,17 @@ CREATE INDEX idx_admin_email ON Admin(Email);
 -- =============================================
 
 -- Sample Pets
-INSERT INTO Pet (Pet_Name, Species, Breed, Age, Gender, Color, Date_Arrived, Vaccination_Status, Spayed_Neutered, Temperament, Special_Needs, Photo_URL, Status) VALUES
-('Buddy', 'Dog', 'Golden Retriever', '3 years', 'Male', 'Golden', '2025-01-15', 'Up-to-date', 'Yes', 'Friendly, Playful', NULL, 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400', 'Available'),
-('Luna', 'Cat', 'Persian', '2 years', 'Female', 'White', '2025-02-20', 'Up-to-date', 'Yes', 'Calm, Affectionate', NULL, 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400', 'Available'),
-('Max', 'Dog', 'German Shepherd', '4 years', 'Male', 'Black and Tan', '2025-01-10', 'Up-to-date', 'Yes', 'Loyal, Protective', NULL, 'https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=400', 'Available'),
-('Whiskers', 'Cat', 'Tabby', '1 year', 'Male', 'Orange Tabby', '2025-03-01', 'Incomplete', 'No', 'Playful, Curious', NULL, 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=400', 'Available'),
-('Bella', 'Dog', 'Labrador', '2 years', 'Female', 'Chocolate', '2025-02-10', 'Up-to-date', 'Yes', 'Gentle, Good with kids', NULL, 'https://images.unsplash.com/photo-1579168765467-3b235f938439?w=400', 'Reserved'),
-('Mittens', 'Cat', 'Siamese', '3 years', 'Female', 'Cream and Brown', '2025-01-25', 'Up-to-date', 'Yes', 'Vocal, Social', NULL, 'https://images.unsplash.com/photo-1513245543132-31f507417b26?w=400', 'Available'),
-('Rocky', 'Dog', 'Bulldog', '5 years', 'Male', 'Brindle', '2025-02-28', 'Overdue', 'Yes', 'Calm, Stubborn', 'Requires special diet', 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400', 'Medical Hold'),
-('Shadow', 'Cat', 'Black Shorthair', '4 years', 'Male', 'Black', '2025-03-05', 'Up-to-date', 'Yes', 'Independent, Mysterious', NULL, 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=400', 'Available'),
-('Daisy', 'Dog', 'Beagle', '1 year', 'Female', 'Tricolor', '2025-03-10', 'Incomplete', 'No', 'Energetic, Friendly', NULL, 'https://images.unsplash.com/photo-1505628346881-b72b27e84530?w=400', 'Available'),
-('Oliver', 'Cat', 'Maine Coon', '2 years', 'Male', 'Brown Tabby', '2025-02-15', 'Up-to-date', 'Yes', 'Gentle Giant, Playful', NULL, 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=400', 'Available');
+INSERT INTO Pet (Pet_Name, Species, Breed, Age, Gender, Color, Date_Arrived, Spayed_Neutered, Temperament, Special_Needs, Photo_URL, Status) VALUES
+('Buddy', 'Dog', 'Golden Retriever', '3 years', 'Male', 'Golden', '2025-01-15', 'Yes', 'Friendly, Playful', NULL, 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400', 'Available'),
+('Luna', 'Cat', 'Persian', '2 years', 'Female', 'White', '2025-02-20', 'Yes', 'Calm, Affectionate', NULL, 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400', 'Available'),
+('Max', 'Dog', 'German Shepherd', '4 years', 'Male', 'Black and Tan', '2025-01-10', 'Yes', 'Loyal, Protective', NULL, 'https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=400', 'Available'),
+('Whiskers', 'Cat', 'Tabby', '1 year', 'Male', 'Orange Tabby', '2025-03-01', 'No', 'Playful, Curious', NULL, 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=400', 'Available'),
+('Bella', 'Dog', 'Labrador', '2 years', 'Female', 'Chocolate', '2025-02-10', 'Yes', 'Gentle, Good with kids', NULL, 'https://images.unsplash.com/photo-1579168765467-3b235f938439?w=400', 'Reserved'),
+('Mittens', 'Cat', 'Siamese', '3 years', 'Female', 'Cream and Brown', '2025-01-25', 'Yes', 'Vocal, Social', NULL, 'https://images.unsplash.com/photo-1513245543132-31f507417b26?w=400', 'Available'),
+('Rocky', 'Dog', 'Bulldog', '5 years', 'Male', 'Brindle', '2025-02-28', 'Yes', 'Calm, Stubborn', 'Requires special diet', 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400', 'Medical Hold'),
+('Shadow', 'Cat', 'Black Shorthair', '4 years', 'Male', 'Black', '2025-03-05', 'Yes', 'Independent, Mysterious', NULL, 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=400', 'Available'),
+('Daisy', 'Dog', 'Beagle', '1 year', 'Female', 'Tricolor', '2025-03-10', 'No', 'Energetic, Friendly', NULL, 'https://images.unsplash.com/photo-1505628346881-b72b27e84530?w=400', 'Available'),
+('Oliver', 'Cat', 'Maine Coon', '2 years', 'Male', 'Brown Tabby', '2025-02-15', 'Yes', 'Gentle Giant, Playful', NULL, 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=400', 'Available');
 
 -- Sample Adopters (password is 'password123' hashed with bcrypt)
 INSERT INTO Adopter (Email, Password_Hash, Full_Name, Contact_No, Address, Housing_Type, Has_Other_Pets, Has_Children, Experience_Level) VALUES
