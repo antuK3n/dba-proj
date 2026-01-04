@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 const bcrypt = require('bcryptjs');
-const { verifyAdmin, requireRole } = require('../middleware/adminAuth');
+const { verifyAdmin } = require('../middleware/adminAuth');
 
 // Apply admin authentication to all routes
 router.use(verifyAdmin);
@@ -569,10 +569,10 @@ router.delete('/vaccinations/:id', async (req, res) => {
 // =============================================
 // ADMIN USER MANAGEMENT (Super Admin only)
 // =============================================
-router.get('/users', requireRole('Super Admin'), async (req, res) => {
+router.get('/users', verifyAdmin, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, Role, created_at FROM Admin'
+      'SELECT Admin_ID, Email, Full_Name, created_at FROM Admin'
     );
     res.json(rows);
   } catch (error) {
@@ -580,19 +580,19 @@ router.get('/users', requireRole('Super Admin'), async (req, res) => {
   }
 });
 
-router.post('/users', requireRole('Super Admin'), async (req, res) => {
+router.post('/users', verifyAdmin, async (req, res) => {
   try {
-    const { Email, Password, Full_Name, Role } = req.body;
+    const { Email, Password, Full_Name } = req.body;
 
     const hashedPassword = await bcrypt.hash(Password, 10);
 
     const [result] = await pool.query(
-      `INSERT INTO Admin (Email, Password_Hash, Full_Name, Role) VALUES (?, ?, ?, ?)`,
-      [Email, hashedPassword, Full_Name, Role || 'Staff']
+      `INSERT INTO Admin (Email, Password_Hash, Full_Name) VALUES (?, ?, ?)`,
+      [Email, hashedPassword, Full_Name]
     );
 
     const [newAdmin] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, Role FROM Admin WHERE Admin_ID = ?',
+      'SELECT Admin_ID, Email, Full_Name FROM Admin WHERE Admin_ID = ?',
       [result.insertId]
     );
     res.status(201).json(newAdmin[0]);

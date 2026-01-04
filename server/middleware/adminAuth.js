@@ -21,7 +21,7 @@ const verifyAdmin = async (req, res, next) => {
 
     // Verify admin exists
     const [admins] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, Role FROM Admin WHERE Admin_ID = ?',
+      'SELECT Admin_ID, Email, Full_Name FROM Admin WHERE Admin_ID = ?',
       [decoded.id]
     );
 
@@ -42,19 +42,4 @@ const verifyAdmin = async (req, res, next) => {
   }
 };
 
-// Check specific role middleware
-const requireRole = (...roles) => {
-  return (req, res, next) => {
-    if (!req.admin) {
-      return res.status(401).json({ error: 'Authentication required' });
-    }
-    if (!roles.includes(req.admin.Role)) {
-      return res.status(403).json({
-        error: `Access denied. Requires: ${roles.join(' or ')}`
-      });
-    }
-    next();
-  };
-};
-
-module.exports = { verifyAdmin, requireRole };
+module.exports = { verifyAdmin };

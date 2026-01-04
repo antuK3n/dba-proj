@@ -44,8 +44,7 @@ router.post('/login', async (req, res) => {
       admin: {
         Admin_ID: admin.Admin_ID,
         Email: admin.Email,
-        Full_Name: admin.Full_Name,
-        Role: admin.Role
+        Full_Name: admin.Full_Name
       }
     });
   } catch (error) {
@@ -69,7 +68,7 @@ router.get('/me', async (req, res) => {
     }
 
     const [admins] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, Role, created_at FROM Admin WHERE Admin_ID = ?',
+      'SELECT Admin_ID, Email, Full_Name, created_at FROM Admin WHERE Admin_ID = ?',
       [decoded.id]
     );
 

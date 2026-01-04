@@ -142,7 +142,6 @@ CREATE TABLE Admin (
     Email VARCHAR(255) NOT NULL UNIQUE,
     Password_Hash VARCHAR(255) NOT NULL,
     Full_Name VARCHAR(100) NOT NULL,
-    Role ENUM('Super Admin', 'Manager', 'Staff') DEFAULT 'Staff',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -213,8 +212,8 @@ INSERT INTO Favorite (Adopter_ID, Pet_ID) VALUES
 (3, 8);
 
 -- Sample Admin (password is 'admin123' hashed with bcrypt)
-INSERT INTO Admin (Email, Password_Hash, Full_Name, Role) VALUES
-('admin@petadopt.com', '$2b$10$ykNAFRVUuJvT3X8pwFdD4uVAqNOTzFcJ2x9wUs06RCslNWT028QnG', 'System Admin', 'Super Admin');
+INSERT INTO Admin (Email, Password_Hash, Full_Name) VALUES
+('admin@petadopt.com', '$2b$10$ykNAFRVUuJvT3X8pwFdD4uVAqNOTzFcJ2x9wUs06RCslNWT028QnG', 'System Admin');
 ```
 
 ## Quick Setup Commands
