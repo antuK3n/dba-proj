@@ -189,7 +189,7 @@ INSERT INTO Adoption (Pet_ID, Adopter_ID, Adoption_Date, Adoption_Fee, Contract_
 -- Sample Veterinary Visits
 INSERT INTO Veterinary_Visit (Pet_ID, Visit_Date, Veterinarian_Name, Visit_Type, Weight, Temperature, Diagnosis, General_Notes, Procedure_Cost, Next_Visit_Date) VALUES
 (1, '2025-01-20', 'Dr. Santos', 'Checkup', 28.50, 38.50, 'Healthy', 'Regular checkup, all vitals normal', 500.00, '2025-04-20'),
-(1, '2025-02-15', 'Dr. Santos', 'Vaccination', 29.00, 38.30, NULL, 'Annual vaccination administered', 1200.00, '2026-02-15'),
+(1, '2025-02-15', 'Dr. Santos', 'Vaccination', 29.00, 38.30, 'Healthy - due for vaccination', 'Annual vaccination administered', 1200.00, '2026-02-15'),
 (2, '2025-02-25', 'Dr. Reyes', 'Checkup', 4.20, 38.80, 'Healthy', 'Good condition', 500.00, '2025-05-25'),
 (3, '2025-01-15', 'Dr. Santos', 'Checkup', 32.00, 38.60, 'Healthy', 'Strong and active', 500.00, '2025-04-15'),
 (7, '2025-03-01', 'Dr. Cruz', 'Treatment', 25.00, 39.20, 'Mild skin allergy', 'Prescribed medication, special diet recommended', 1500.00, '2025-03-15');
