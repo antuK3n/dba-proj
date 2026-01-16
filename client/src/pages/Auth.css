@@ -9,15 +9,6 @@
   overflow: hidden;
 }
 
-.auth-page::before {
-  content: '🐕 🐈 🐾 🦴';
-  position: absolute;
-  font-size: 8rem;
-  opacity: 0.05;
-  animation: float 10s ease-in-out infinite;
-  pointer-events: none;
-}
-
 .auth-page::after {
   content: '';
   position: absolute;
@@ -84,10 +75,6 @@
   font-size: 0.95rem;
   font-weight: 600;
   border-left: 4px solid #DC2626;
-}
-
-.error-message::before {
-  content: '⚠️ ';
 }
 
 .form-group {

@@ -316,13 +316,6 @@
   border-radius: 16px;
 }
 
-.empty-message::before {
-  content: '🐾';
-  display: block;
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
 .empty-message a {
   color: var(--primary);
   font-weight: 700;
@@ -468,14 +461,6 @@
   text-align: center;
   padding: 4rem;
   color: var(--text-light);
-}
-
-.loading::before {
-  content: '🐾';
-  display: block;
-  font-size: 3rem;
-  animation: bounce 1s ease-in-out infinite;
-  margin-bottom: 1rem;
 }
 
 /* Responsive */

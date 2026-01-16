@@ -505,13 +505,6 @@
   color: var(--text-light);
 }
 
-.empty-state::before {
-  content: '📭';
-  display: block;
-  font-size: 4rem;
-  margin-bottom: 1rem;
-}
-
 @media (max-width: 768px) {
   .admin-page {
     padding: 1.5rem;

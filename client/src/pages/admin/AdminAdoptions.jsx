@@ -65,7 +65,6 @@ function AdminAdoptions() {
       <div className="page-header">
         <div>
           <h1>Adoption Management</h1>
-          <p>Review and manage adoption applications</p>
         </div>
       </div>
 
@@ -116,6 +115,7 @@ function AdminAdoptions() {
                 <td>
                   <div>
                     <strong>{adoption.Adopter_Name}</strong>
+                    <br />
                     <span className="text-small">{adoption.Adopter_Email}</span>
                   </div>
                 </td>

@@ -72,7 +72,6 @@ function AdminAdopters() {
       <div className="page-header">
         <div>
           <h1>Adopter Management</h1>
-          <p>View and manage registered adopters</p>
         </div>
       </div>
 

@@ -95,7 +95,6 @@ function AdminPets() {
       <div className="page-header">
         <div>
           <h1>Pet Management</h1>
-          <p>Manage all pets in the system</p>
         </div>
         <button className="btn-add" onClick={openAddModal}>Add Pet</button>
       </div>

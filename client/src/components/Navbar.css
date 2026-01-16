@@ -35,12 +35,6 @@
   z-index: 1;
 }
 
-.navbar-brand a::before {
-  content: '🐾';
-  font-size: 1.5rem;
-  animation: wiggle 1s ease-in-out infinite;
-}
-
 .navbar-links {
   display: flex;
   align-items: center;

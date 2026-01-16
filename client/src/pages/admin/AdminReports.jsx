@@ -22,6 +22,7 @@ function AdminReports() {
     setLoading(true);
     try {
       const res = await getPendingApplications();
+      console.log('Pending Applications API Response:', res.data);
       setPendingApps(res.data);
     } catch (error) {
       console.error('Error:', error);
@@ -93,7 +94,6 @@ function AdminReports() {
       <div className="page-header">
         <div>
           <h1>Reports & Analytics</h1>
-          <p>View detailed reports and statistics</p>
         </div>
       </div>
 
@@ -125,7 +125,6 @@ function AdminReports() {
         <div className="report-section">
           <div className="report-header">
             <h2>Pending Adoption Applications</h2>
-            <p className="report-subtitle">Review and process adoption requests</p>
           </div>
 
           {pendingApps.length === 0 ? (
@@ -191,7 +190,6 @@ function AdminReports() {
         <div className="report-section">
           <div className="report-header">
             <h2>Adoption Management Report</h2>
-            <p className="report-subtitle">Complete adoption history with details</p>
           </div>
 
           {adoptionReport.length === 0 ? (
@@ -252,7 +250,6 @@ function AdminReports() {
         <div className="report-section">
           <div className="report-header">
             <h2>Monthly Adoption Statistics</h2>
-            <p className="report-subtitle">View adoption metrics by month</p>
           </div>
 
           <div className="stats-filters">

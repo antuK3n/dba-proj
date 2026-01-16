@@ -92,7 +92,6 @@ function AdminVetVisits() {
       <div className="page-header">
         <div>
           <h1>Vet Visits Management</h1>
-          <p>Track and manage veterinary visits</p>
         </div>
         <button className="btn-add" onClick={openAddModal}>Add Visit</button>
       </div>

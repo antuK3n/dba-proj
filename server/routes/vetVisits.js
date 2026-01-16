@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
   try {
     const { pet_id, visit_type } = req.query;
     let query = `
-      SELECT v.*, p.Pet_Name, p.Species, p.Breed
+      SELECT v.*, p.Pet_Name, p.Species, p.Breed, p.Photo_URL
       FROM Veterinary_Visit v
       JOIN Pet p ON v.Pet_ID = p.Pet_ID
       WHERE 1=1

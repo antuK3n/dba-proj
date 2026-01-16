@@ -1,5 +1,6 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { LayoutDashboard, Dog, Users, ClipboardList, BarChart3, Stethoscope, Syringe, LogOut } from 'lucide-react';
 import './AdminLayout.css';
 
 function AdminLayout() {
@@ -13,13 +14,13 @@ function AdminLayout() {
   };
 
   const navItems = [
-    { path: '/admin', label: 'Dashboard', icon: '📊' },
-    { path: '/admin/pets', label: 'Pets', icon: '🐕' },
-    { path: '/admin/adopters', label: 'Adopters', icon: '👥' },
-    { path: '/admin/adoptions', label: 'Adoptions', icon: '📋' },
-    { path: '/admin/reports', label: 'Reports', icon: '📈' },
-    { path: '/admin/vet-visits', label: 'Vet Visits', icon: '🏥' },
-    { path: '/admin/vaccinations', label: 'Vaccinations', icon: '💉' },
+    { path: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+    { path: '/admin/pets', label: 'Pets', icon: Dog },
+    { path: '/admin/adopters', label: 'Adopters', icon: Users },
+    { path: '/admin/adoptions', label: 'Adoptions', icon: ClipboardList },
+    { path: '/admin/reports', label: 'Reports', icon: BarChart3 },
+    { path: '/admin/vet-visits', label: 'Vet Visits', icon: Stethoscope },
+    { path: '/admin/vaccinations', label: 'Vaccinations', icon: Syringe },
   ];
 
   const isActive = (path) => {
@@ -43,7 +44,7 @@ function AdminLayout() {
               to={item.path}
               className={isActive(item.path) ? 'active' : ''}
             >
-              <span className="nav-icon">{item.icon}</span>
+              <span className="nav-icon"><item.icon size={20} /></span>
               <span className="nav-label">{item.label}</span>
             </Link>
           ))}
@@ -54,7 +55,7 @@ function AdminLayout() {
             {admin?.Role && <span className="admin-role">{admin.Role}</span>}
           </div>
           <button onClick={handleLogout} className="btn-logout">
-            Logout
+            <LogOut size={18} /> Logout
           </button>
         </div>
       </aside>

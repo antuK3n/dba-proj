@@ -9,15 +9,6 @@
   overflow: hidden;
 }
 
-.admin-login-page::before {
-  content: '🐾';
-  position: absolute;
-  font-size: 20rem;
-  opacity: 0.03;
-  animation: float 15s ease-in-out infinite;
-  pointer-events: none;
-}
-
 .admin-login-card {
   background: white;
   padding: 3rem;
@@ -52,10 +43,6 @@
   font-weight: 800;
 }
 
-.admin-login-header h1::before {
-  content: '🔐 ';
-}
-
 .admin-login-header p {
   color: var(--text-light);
   font-size: 1rem;
@@ -70,10 +57,6 @@
   font-size: 0.95rem;
   font-weight: 600;
   border-left: 4px solid #DC2626;
-}
-
-.admin-login-card .error-message::before {
-  content: '⚠️ ';
 }
 
 .admin-login-card .form-group {
@@ -122,10 +105,6 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   font-family: inherit;
-}
-
-.btn-login::before {
-  content: '🐾 ';
 }
 
 .btn-login:hover:not(:disabled) {

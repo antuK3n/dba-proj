@@ -77,14 +77,6 @@
   font-weight: 600;
 }
 
-.no-pets::before {
-  content: '🐕';
-  display: block;
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  animation: bounce 1s ease-in-out infinite;
-}
-
 /* Stored Procedure Button */
 .btn-stored-proc {
   padding: 1rem 1.5rem;

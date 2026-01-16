@@ -112,10 +112,6 @@
   font-family: inherit;
 }
 
-.btn-logout::before {
-  content: '🚪 ';
-}
-
 .btn-logout:hover {
   background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(255, 107, 107, 0.2));
   border-color: var(--primary);

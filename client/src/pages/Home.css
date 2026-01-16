@@ -23,18 +23,6 @@
   animation: float 20s linear infinite;
 }
 
-.hero::after {
-  content: '🐕 🐈 🐾 🦴 🐕 🐈 🐾 🦴';
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  font-size: 2rem;
-  opacity: 0.15;
-  animation: wiggle 3s ease-in-out infinite;
-  letter-spacing: 2rem;
-}
-
 .hero-content {
   max-width: 900px;
   margin: 0 auto;
@@ -76,20 +64,9 @@
   overflow: hidden;
 }
 
-.btn-primary::before {
-  content: '🐶';
-  margin-right: 0.5rem;
-  transition: transform 0.3s ease;
-  display: inline-block;
-}
-
 .btn-primary:hover {
   transform: translateY(-5px) scale(1.05);
   box-shadow: 0 15px 40px rgba(255, 230, 109, 0.5);
-}
-
-.btn-primary:hover::before {
-  transform: rotate(20deg);
 }
 
 .featured-section {
@@ -106,27 +83,11 @@
   font-weight: 800;
 }
 
-.featured-section h2::before {
-  content: '⭐ ';
-}
-
-.featured-section h2::after {
-  content: ' ⭐';
-}
-
 .featured-section > p,
 .section-subtitle {
   color: var(--text-light);
   margin-bottom: 3rem;
   font-size: 1.1rem;
-}
-
-.featured-section.new-arrivals h2::before {
-  content: '🆕 ';
-}
-
-.featured-section.new-arrivals h2::after {
-  content: ' 🆕';
 }
 
 .no-pets {
@@ -239,14 +200,6 @@
   padding: 4rem;
   color: var(--text-light);
   font-size: 1.3rem;
-}
-
-.loading::before {
-  content: '🐾';
-  display: block;
-  font-size: 3rem;
-  animation: bounce 1s ease-in-out infinite;
-  margin-bottom: 1rem;
 }
 
 /* Responsive */

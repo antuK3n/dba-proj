@@ -92,7 +92,6 @@ function AdminVaccinations() {
       <div className="page-header">
         <div>
           <h1>Vaccination Management</h1>
-          <p>Track pet vaccinations and schedules</p>
         </div>
         <button className="btn-add" onClick={openAddModal}>Add Vaccination</button>
       </div>
@@ -116,6 +115,7 @@ function AdminVaccinations() {
               <tr key={vacc.Vaccination_ID}>
                 <td>
                   <strong>{vacc.Pet_Name}</strong>
+                  <br />
                   <span className="text-small">{vacc.Species}</span>
                 </td>
                 <td>{vacc.Vaccine_Name}</td>

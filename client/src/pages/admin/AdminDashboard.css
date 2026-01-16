@@ -13,13 +13,6 @@
   font-weight: 600;
 }
 
-.admin-loading::before {
-  content: '🐾';
-  font-size: 4rem;
-  animation: bounce 1s ease-in-out infinite;
-  margin-bottom: 1rem;
-}
-
 .dashboard-header {
   margin-bottom: 2.5rem;
 }
@@ -137,6 +130,7 @@
 
 .stat-details {
   display: flex;
+  justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
   font-size: 0.9rem;
@@ -157,10 +151,6 @@
   font-size: 0.85rem;
   font-weight: 700;
   display: inline-block;
-}
-
-.stat-alert::before {
-  content: '⚠️ ';
 }
 
 .activity-section {
@@ -282,13 +272,6 @@
   padding: 2.5rem;
   color: var(--text-light);
   font-weight: 500;
-}
-
-.no-data::before {
-  content: '📭';
-  display: block;
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 768px) {

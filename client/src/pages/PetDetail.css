@@ -131,19 +131,11 @@
   font-weight: 700;
 }
 
-.pet-temperament h3::before {
-  content: '💝 ';
-}
-
 .pet-special-needs {
   background: linear-gradient(135deg, #FFF3CD, #FFEAA7);
   padding: 1.2rem;
   border-radius: 16px;
   border-left: 5px solid var(--accent-yellow);
-}
-
-.pet-special-needs h3::before {
-  content: '⚠️ ';
 }
 
 .pet-actions {
@@ -169,10 +161,6 @@
   border: 3px solid #E5E7EB;
 }
 
-.btn-favorite::before {
-  content: '🤍 ';
-}
-
 .btn-favorite:hover {
   background: linear-gradient(135deg, #FFE8E8, #FFCCCC);
   border-color: var(--primary);
@@ -185,19 +173,11 @@
   color: var(--primary);
 }
 
-.btn-favorite.favorited::before {
-  content: '❤️ ';
-}
-
 .btn-adopt {
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent-pink) 100%);
   color: white;
   flex: 1;
   box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
-}
-
-.btn-adopt::before {
-  content: '🏠 ';
 }
 
 .btn-adopt:hover:not(:disabled) {
@@ -225,9 +205,6 @@
   font-size: 1.5rem;
 }
 
-.vet-history h2::before {
-  content: '🏥 ';
-}
 
 .vet-cards {
   display: grid;
@@ -285,12 +262,6 @@
   border-radius: 16px;
 }
 
-.no-vet-history::before {
-  content: '📋';
-  display: block;
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
 
 @media (max-width: 768px) {
   .pet-detail {

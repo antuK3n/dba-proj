@@ -39,13 +39,6 @@ main > * {
   font-weight: 600;
 }
 
-.loading::before {
-  content: '🐾';
-  font-size: 4rem;
-  animation: bounce 1s ease-in-out infinite;
-  margin-bottom: 1rem;
-}
-
 .error {
   display: flex;
   flex-direction: column;
@@ -55,12 +48,6 @@ main > * {
   font-size: 1.2rem;
   color: var(--primary);
   font-weight: 600;
-}
-
-.error::before {
-  content: '😿';
-  font-size: 4rem;
-  margin-bottom: 1rem;
 }
 
 /* Global button styles */

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getDashboardStats, getDashboardActivity } from '../../services/adminApi';
+import { Dog, Users, ClipboardList, Stethoscope, Syringe, AlertTriangle } from 'lucide-react';
 import './AdminDashboard.css';
 
 function AdminDashboard() {
@@ -35,12 +36,11 @@ function AdminDashboard() {
     <div className="admin-dashboard">
       <div className="dashboard-header">
         <h1>Dashboard</h1>
-        <p>Welcome to the PetHaven Admin Panel</p>
       </div>
 
       <div className="stats-grid">
         <div className="stat-card pets">
-          <div className="stat-icon">🐕</div>
+          <div className="stat-icon"><Dog size={32} /></div>
           <div className="stat-info">
             <span className="stat-value">{stats?.pets?.total_pets || 0}</span>
             <span className="stat-label">Total Pets</span>
@@ -52,7 +52,7 @@ function AdminDashboard() {
         </div>
 
         <div className="stat-card adopters">
-          <div className="stat-icon">👥</div>
+          <div className="stat-icon"><Users size={32} /></div>
           <div className="stat-info">
             <span className="stat-value">{stats?.adopters?.total_adopters || 0}</span>
             <span className="stat-label">Total Adopters</span>
@@ -60,7 +60,7 @@ function AdminDashboard() {
         </div>
 
         <div className="stat-card adoptions">
-          <div className="stat-icon">📋</div>
+          <div className="stat-icon"><ClipboardList size={32} /></div>
           <div className="stat-info">
             <span className="stat-value">{stats?.adoptions?.total_adoptions || 0}</span>
             <span className="stat-label">Total Adoptions</span>
@@ -72,7 +72,7 @@ function AdminDashboard() {
         </div>
 
         <div className="stat-card vet">
-          <div className="stat-icon">🏥</div>
+          <div className="stat-icon"><Stethoscope size={32} /></div>
           <div className="stat-info">
             <span className="stat-value">{stats?.vetVisits?.total_visits || 0}</span>
             <span className="stat-label">Vet Visits</span>
@@ -80,14 +80,14 @@ function AdminDashboard() {
         </div>
 
         <div className="stat-card vaccinations">
-          <div className="stat-icon">💉</div>
+          <div className="stat-icon"><Syringe size={32} /></div>
           <div className="stat-info">
             <span className="stat-value">{stats?.vaccinations?.total_vaccinations || 0}</span>
             <span className="stat-label">Vaccinations</span>
           </div>
           {stats?.vaccinations?.overdue > 0 && (
             <div className="stat-alert">
-              {stats.vaccinations.overdue} Overdue
+              <AlertTriangle size={14} /> {stats.vaccinations.overdue} Overdue
             </div>
           )}
         </div>
