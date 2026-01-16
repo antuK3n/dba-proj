@@ -13,10 +13,10 @@ function Register() {
     Full_Name: '',
     Contact_No: '',
     Address: '',
-    Housing_Type: 'House',
-    Has_Other_Pets: 'No',
-    Has_Children: 'No',
-    Experience_Level: 'First-time',
+    Housing_Type: '',
+    Has_Other_Pets: '',
+    Has_Children: '',
+    Experience_Level: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -86,30 +86,33 @@ function Register() {
               />
             </div>
             <div className="form-group">
-              <label>Contact Number</label>
+              <label>Contact Number *</label>
               <input
                 type="tel"
                 name="Contact_No"
                 value={formData.Contact_No}
                 onChange={handleChange}
+                required
               />
             </div>
           </div>
 
           <div className="form-group">
-            <label>Address</label>
+            <label>Address *</label>
             <input
               type="text"
               name="Address"
               value={formData.Address}
               onChange={handleChange}
+              required
             />
           </div>
 
           <div className="form-row">
             <div className="form-group">
-              <label>Housing Type</label>
-              <select name="Housing_Type" value={formData.Housing_Type} onChange={handleChange}>
+              <label>Housing Type *</label>
+              <select name="Housing_Type" value={formData.Housing_Type} onChange={handleChange} required>
+                <option value="" disabled>-- Select Housing Type --</option>
                 <option value="House">House</option>
                 <option value="Apartment">Apartment</option>
                 <option value="Condo">Condo</option>
@@ -117,8 +120,9 @@ function Register() {
               </select>
             </div>
             <div className="form-group">
-              <label>Experience Level</label>
-              <select name="Experience_Level" value={formData.Experience_Level} onChange={handleChange}>
+              <label>Experience Level *</label>
+              <select name="Experience_Level" value={formData.Experience_Level} onChange={handleChange} required>
+                <option value="" disabled>-- Select Experience Level --</option>
                 <option value="First-time">First-time Owner</option>
                 <option value="Experienced">Experienced Owner</option>
               </select>
@@ -127,15 +131,17 @@ function Register() {
 
           <div className="form-row">
             <div className="form-group">
-              <label>Has Other Pets?</label>
-              <select name="Has_Other_Pets" value={formData.Has_Other_Pets} onChange={handleChange}>
+              <label>Has Other Pets? *</label>
+              <select name="Has_Other_Pets" value={formData.Has_Other_Pets} onChange={handleChange} required>
+                <option value="" disabled>-- Select --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
               </select>
             </div>
             <div className="form-group">
-              <label>Has Children?</label>
-              <select name="Has_Children" value={formData.Has_Children} onChange={handleChange}>
+              <label>Has Children? *</label>
+              <select name="Has_Children" value={formData.Has_Children} onChange={handleChange} required>
+                <option value="" disabled>-- Select --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
               </select>

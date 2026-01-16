@@ -25,7 +25,7 @@ function Navbar() {
             <Link to="/favorites">Favorites</Link>
             <Link to="/adoptions">Adoptions</Link>
             <Link to="/vet-visits">Vet Visits</Link>
-            <span className="user-name">Hi, {user.Full_Name}</span>
+            <span className="user-name">Hi, {user.Full_Name.split(' ')[0]}</span>
             <button onClick={handleLogout} className="btn-logout">Logout</button>
           </>
         ) : (

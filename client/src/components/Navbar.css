@@ -87,6 +87,7 @@
   padding: 0.3rem 0.8rem;
   background: rgba(255, 255, 255, 0.15);
   border-radius: 20px;
+  white-space: nowrap;
 }
 
 .btn-logout {
