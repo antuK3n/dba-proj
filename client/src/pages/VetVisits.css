@@ -1,29 +1,47 @@
 .vet-visits-page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2.5rem;
 }
 
 .vet-visits-page .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.vet-visits-page .page-header h1 {
+  font-size: 2.5rem;
+  color: var(--text-dark);
+  font-weight: 800;
+  margin: 0;
+}
+
+.vet-visits-page .page-header h1::before {
+  content: '🏥 ';
 }
 
 .btn-add {
-  padding: 0.8rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-pink) 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 14px;
+  font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+  font-family: inherit;
+}
+
+.btn-add::before {
+  content: '+ ';
 }
 
 .btn-add:hover {
-  opacity: 0.9;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
 }
 
 .modal-overlay {
@@ -32,7 +50,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,17 +61,37 @@
 
 .modal {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 600px;
+  padding: 2.5rem;
+  border-radius: 24px;
+  max-width: 650px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.modal::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, var(--secondary), var(--primary), var(--accent-yellow));
+  z-index: -1;
 }
 
 .modal h2 {
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.modal h2::before {
+  content: '📝 ';
 }
 
 .modal .form-row {
@@ -62,29 +101,42 @@
 
 .modal .form-group {
   flex: 1;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
 .modal .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #555;
-  font-weight: 500;
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 .modal .form-group input,
 .modal .form-group select,
 .modal .form-group textarea {
   width: 100%;
-  padding: 0.7rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  border: 2px solid #E5E7EB;
+  border-radius: 12px;
   font-size: 1rem;
   box-sizing: border-box;
+  font-family: inherit;
+  background: #FAFAFA;
+  transition: all 0.3s ease;
+}
+
+.modal .form-group input:focus,
+.modal .form-group select:focus,
+.modal .form-group textarea:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.15);
+  background: white;
 }
 
 .modal .form-group textarea {
-  min-height: 80px;
+  min-height: 100px;
   resize: vertical;
 }
 
@@ -96,21 +148,37 @@
 }
 
 .btn-cancel {
-  padding: 0.8rem 1.5rem;
-  background: #f0f0f0;
-  color: #333;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
+  color: var(--text-dark);
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: linear-gradient(135deg, #E5E7EB, #D1D5DB);
 }
 
 .modal .btn-submit {
-  padding: 0.8rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--secondary), #0EA5E9);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
+  font-weight: 700;
+  font-family: inherit;
+  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+  transition: all 0.3s ease;
+}
+
+.modal .btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
 }
 
 .visits-list {
@@ -120,9 +188,17 @@
 
 .visit-card {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(255, 107, 107, 0.1);
   overflow: hidden;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.visit-card:hover {
+  border-color: var(--secondary);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(78, 205, 196, 0.15);
 }
 
 .visit-header {
@@ -130,17 +206,22 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 1.5rem;
-  background: #f8f9fa;
-  border-bottom: 1px solid #eee;
+  background: linear-gradient(135deg, #FFF5F5 0%, #FFE8F5 100%);
+  border-bottom: 1px solid #F3F4F6;
 }
 
 .pet-info h3 {
   margin: 0 0 0.3rem 0;
-  color: #333;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.pet-info h3::before {
+  content: '🐾 ';
 }
 
 .pet-info span {
-  color: #666;
+  color: var(--text-light);
   font-size: 0.9rem;
 }
 
@@ -150,23 +231,41 @@
 
 .visit-type {
   display: inline-block;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  margin-bottom: 0.3rem;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
-.visit-type.checkup { background: #e3f2fd; color: #1565c0; }
-.visit-type.vaccination { background: #e8f5e9; color: #2e7d32; }
-.visit-type.surgery { background: #fce4ec; color: #c2185b; }
-.visit-type.treatment { background: #fff3e0; color: #ef6c00; }
-.visit-type.emergency { background: #ffebee; color: #c62828; }
+.visit-type.checkup {
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+  color: #1D4ED8;
+}
+.visit-type.vaccination {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+  color: #047857;
+}
+.visit-type.surgery {
+  background: linear-gradient(135deg, #FCE7F3, #FBCFE8);
+  color: #BE185D;
+}
+.visit-type.treatment {
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  color: #B45309;
+}
+.visit-type.emergency {
+  background: linear-gradient(135deg, #FEE2E2, #FECACA);
+  color: #DC2626;
+}
 
 .visit-date {
   display: block;
-  color: #888;
+  color: var(--text-light);
   font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .visit-details {
@@ -174,12 +273,14 @@
 }
 
 .visit-details p {
-  margin: 0.5rem 0;
-  color: #555;
+  margin: 0.6rem 0;
+  color: var(--text-light);
+  line-height: 1.6;
 }
 
 .visit-details strong {
-  color: #333;
+  color: var(--text-dark);
+  font-weight: 600;
 }
 
 .visit-actions {
@@ -187,22 +288,69 @@
 }
 
 .btn-vaccination {
-  padding: 0.6rem 1rem;
-  background: #4caf50;
+  padding: 0.7rem 1.2rem;
+  background: linear-gradient(135deg, var(--accent-green), #10B981);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-vaccination::before {
+  content: '💉 ';
 }
 
 .btn-vaccination:hover {
-  background: #43a047;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
 }
 
-@media (max-width: 600px) {
+.empty-visits {
+  text-align: center;
+  padding: 4rem;
+  background: linear-gradient(135deg, #FFF9F0, #FFF5F5);
+  border-radius: 24px;
+  color: var(--text-light);
+}
+
+.empty-visits::before {
+  content: '🏥';
+  display: block;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .vet-visits-page {
+    padding: 1.5rem;
+  }
+
+  .vet-visits-page .page-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .vet-visits-page .page-header h1 {
+    font-size: 1.8rem;
+  }
+
   .modal .form-row {
     flex-direction: column;
     gap: 0;
+  }
+
+  .visit-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .visit-meta {
+    text-align: left;
   }
 }

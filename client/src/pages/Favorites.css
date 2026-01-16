@@ -1,44 +1,77 @@
 .favorites-page {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2.5rem;
 }
 
 .page-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .page-header h1 {
-  font-size: 2rem;
-  color: #333;
+  font-size: 2.5rem;
+  color: var(--text-dark);
   margin-bottom: 0.5rem;
+  font-weight: 800;
+}
+
+.page-header h1::before {
+  content: '❤️ ';
+}
+
+.page-header h1::after {
+  content: ' ❤️';
 }
 
 .page-header p {
-  color: #666;
+  color: var(--text-light);
+  font-size: 1.1rem;
 }
 
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
-  background: #f8f9fa;
-  border-radius: 12px;
+  background: linear-gradient(135deg, #FFF9F0, #FFF5F5);
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(255, 107, 107, 0.1);
+}
+
+.empty-state::before {
+  content: '💔';
+  display: block;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
 }
 
 .empty-state h2 {
-  color: #333;
+  color: var(--text-dark);
   margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .empty-state p {
-  color: #666;
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+.empty-state a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.empty-state a:hover {
+  color: var(--accent-pink);
+  text-decoration: underline;
 }
 
 .favorites-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2.5rem;
 }
 
 .favorite-item {
@@ -47,17 +80,40 @@
 }
 
 .btn-remove {
-  margin-top: 0.5rem;
-  padding: 0.8rem;
-  background: #f8d7da;
-  color: #721c24;
+  margin-top: 0.8rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #FEE2E2, #FECACA);
+  color: #DC2626;
   border: none;
-  border-radius: 8px;
+  border-radius: 14px;
   cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.15);
+}
+
+.btn-remove::before {
+  content: '💔 ';
 }
 
 .btn-remove:hover {
-  background: #f5c6cb;
+  background: linear-gradient(135deg, #FECACA, #FCA5A5);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.25);
+}
+
+@media (max-width: 768px) {
+  .favorites-page {
+    padding: 1.5rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .favorites-list {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }

@@ -295,7 +295,7 @@ router.get('/adoptions', async (req, res) => {
 
 router.put('/adoptions/:id/cancel', async (req, res) => {
   try {
-    const [adoption] = await pool.query('SELECT * FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
+    const [adoption] = await pool.query('SELECT Adoption_ID FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
     if (adoption.length === 0) {
       return res.status(404).json({ error: 'Adoption not found' });
     }
@@ -305,8 +305,7 @@ router.put('/adoptions/:id/cancel', async (req, res) => {
       [req.params.id]
     );
 
-    // Set pet back to available
-    await pool.query('UPDATE Pet SET Status = ? WHERE Pet_ID = ?', ['Available', adoption[0].Pet_ID]);
+    // Note: Pet status is automatically set to 'Available' by database trigger
 
     const [updated] = await pool.query(
       `SELECT a.*, p.Pet_Name FROM Adoption a JOIN Pet p ON a.Pet_ID = p.Pet_ID WHERE a.Adoption_ID = ?`,
@@ -320,19 +319,17 @@ router.put('/adoptions/:id/cancel', async (req, res) => {
 
 router.put('/adoptions/:id/complete', async (req, res) => {
   try {
-    const [adoption] = await pool.query('SELECT * FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
+    const [adoption] = await pool.query('SELECT Adoption_ID FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
     if (adoption.length === 0) {
       return res.status(404).json({ error: 'Adoption not found' });
     }
 
+    // Note: Adoption_Date and Contract_Signed are auto-set by database trigger
+    // Note: Pet status is automatically set to 'Adopted' by database trigger
     await pool.query(
-      `UPDATE Adoption SET Status = 'Completed', Adoption_Date = CURDATE(), Contract_Signed = 'Yes'
-       WHERE Adoption_ID = ?`,
+      `UPDATE Adoption SET Status = 'Completed' WHERE Adoption_ID = ?`,
       [req.params.id]
     );
-
-    // Set pet to adopted
-    await pool.query('UPDATE Pet SET Status = ? WHERE Pet_ID = ?', ['Adopted', adoption[0].Pet_ID]);
 
     const [updated] = await pool.query(
       `SELECT a.*, p.Pet_Name FROM Adoption a JOIN Pet p ON a.Pet_ID = p.Pet_ID WHERE a.Adoption_ID = ?`,
@@ -346,10 +343,7 @@ router.put('/adoptions/:id/complete', async (req, res) => {
 
 router.delete('/adoptions/:id', async (req, res) => {
   try {
-    const [adoption] = await pool.query('SELECT Pet_ID FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
-    if (adoption.length > 0) {
-      await pool.query('UPDATE Pet SET Status = ? WHERE Pet_ID = ?', ['Available', adoption[0].Pet_ID]);
-    }
+    // Note: Pet status is automatically set to 'Available' by database trigger
     await pool.query('DELETE FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
     res.json({ message: 'Adoption deleted successfully' });
   } catch (error) {

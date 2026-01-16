@@ -71,8 +71,7 @@ router.post('/', async (req, res) => {
       [Pet_ID, Adopter_ID, Adoption_Fee]
     );
 
-    // Update pet status to Reserved
-    await pool.query('UPDATE Pet SET Status = ? WHERE Pet_ID = ?', ['Reserved', Pet_ID]);
+    // Note: Pet status is automatically set to 'Reserved' by database trigger
 
     const [newAdoption] = await pool.query(
       `SELECT a.*, p.Pet_Name, p.Species, p.Breed
@@ -92,8 +91,8 @@ router.put('/:id', async (req, res) => {
   try {
     const { Adoption_Date, Contract_Signed, Status } = req.body;
 
-    // Get current adoption to check pet
-    const [current] = await pool.query('SELECT Pet_ID FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
+    // Check if adoption exists
+    const [current] = await pool.query('SELECT Adoption_ID FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
     if (current.length === 0) {
       return res.status(404).json({ error: 'Adoption not found' });
     }
@@ -104,12 +103,7 @@ router.put('/:id', async (req, res) => {
       [Adoption_Date, Contract_Signed, Status, req.params.id]
     );
 
-    // Update pet status based on adoption status
-    if (Status === 'Completed') {
-      await pool.query('UPDATE Pet SET Status = ? WHERE Pet_ID = ?', ['Adopted', current[0].Pet_ID]);
-    } else if (Status === 'Cancelled') {
-      await pool.query('UPDATE Pet SET Status = ? WHERE Pet_ID = ?', ['Available', current[0].Pet_ID]);
-    }
+    // Note: Pet status is automatically synced by database trigger
 
     const [updated] = await pool.query(
       `SELECT a.*, p.Pet_Name, p.Species, p.Breed
@@ -127,13 +121,7 @@ router.put('/:id', async (req, res) => {
 // Delete adoption
 router.delete('/:id', async (req, res) => {
   try {
-    // Get pet ID before deleting
-    const [adoption] = await pool.query('SELECT Pet_ID FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
-    if (adoption.length > 0) {
-      // Set pet back to available
-      await pool.query('UPDATE Pet SET Status = ? WHERE Pet_ID = ?', ['Available', adoption[0].Pet_ID]);
-    }
-
+    // Note: Pet status is automatically set back to 'Available' by database trigger
     await pool.query('DELETE FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
     res.json({ message: 'Adoption deleted successfully' });
   } catch (error) {

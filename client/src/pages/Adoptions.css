@@ -1,34 +1,64 @@
 .adoptions-page {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2.5rem;
+}
+
+.adoptions-page .page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.adoptions-page .page-header h1 {
+  font-size: 2.5rem;
+  color: var(--text-dark);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.adoptions-page .page-header h1::before {
+  content: '📋 ';
+}
+
+.adoptions-page .page-header h1::after {
+  content: ' 📋';
 }
 
 .adoptions-page .filters {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.6rem;
   margin-bottom: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .adoptions-page .filters button {
-  padding: 0.6rem 1.2rem;
-  border: 1px solid #ddd;
+  padding: 0.7rem 1.5rem;
+  border: 2px solid #E5E7EB;
   background: white;
-  border-radius: 20px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.adoptions-page .filters button:hover {
+  border-color: var(--secondary);
+  background: #F0FFF4;
 }
 
 .adoptions-page .filters button.active {
-  background: #667eea;
+  background: linear-gradient(135deg, var(--primary), var(--accent-pink));
   color: white;
-  border-color: #667eea;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
 }
 
 .adoptions-table {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(255, 107, 107, 0.1);
   overflow: hidden;
 }
 
@@ -39,28 +69,36 @@
 
 .adoptions-table th,
 .adoptions-table td {
-  padding: 1rem;
+  padding: 1.2rem;
   text-align: left;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #F3F4F6;
 }
 
 .adoptions-table th {
-  background: #f8f9fa;
-  font-weight: 600;
-  color: #333;
+  background: linear-gradient(135deg, #FFF5F5, #FFE8F5);
+  font-weight: 700;
+  color: var(--text-dark);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.adoptions-table tr:hover td {
+  background: #FFFBF5;
 }
 
 .pet-cell {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .pet-cell img {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
   object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .pet-cell div {
@@ -68,10 +106,15 @@
   flex-direction: column;
 }
 
+.pet-cell strong {
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
 .pet-cell span,
 .adopter-cell span {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--text-light);
 }
 
 .adopter-cell {
@@ -79,22 +122,51 @@
   flex-direction: column;
 }
 
-.status-badge,
-.approval-badge {
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 500;
+.adopter-cell strong {
+  color: var(--text-dark);
+  font-weight: 700;
 }
 
-.status-badge.applied { background: #e3f2fd; color: #1565c0; }
-.status-badge.completed { background: #e8f5e9; color: #2e7d32; }
-.status-badge.returned { background: #fff3e0; color: #ef6c00; }
-.status-badge.cancelled { background: #ffebee; color: #c62828; }
+.status-badge,
+.approval-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  display: inline-block;
+}
 
-.approval-badge.pending { background: #fff8e1; color: #f57f17; }
-.approval-badge.approved { background: #e8f5e9; color: #2e7d32; }
-.approval-badge.denied { background: #ffebee; color: #c62828; }
+.status-badge.applied {
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+  color: #1D4ED8;
+}
+.status-badge.completed {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+  color: #047857;
+}
+.status-badge.returned {
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  color: #B45309;
+}
+.status-badge.cancelled {
+  background: linear-gradient(135deg, #FEE2E2, #FECACA);
+  color: #DC2626;
+}
+
+.approval-badge.pending {
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  color: #B45309;
+}
+.approval-badge.approved {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+  color: #047857;
+}
+.approval-badge.denied {
+  background: linear-gradient(135deg, #FEE2E2, #FECACA);
+  color: #DC2626;
+}
 
 .actions {
   display: flex;
@@ -104,36 +176,82 @@
 
 .actions button,
 .actions a {
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
 }
 
 .btn-approve {
-  background: #4caf50;
+  background: linear-gradient(135deg, var(--accent-green), #10B981);
   color: white;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.btn-approve:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
 }
 
 .btn-deny {
-  background: #f44336;
+  background: linear-gradient(135deg, var(--primary), #DC2626);
   color: white;
+  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+}
+
+.btn-deny:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
 }
 
 .btn-complete {
-  background: #2196f3;
+  background: linear-gradient(135deg, var(--secondary), #0EA5E9);
   color: white;
+  box-shadow: 0 4px 10px rgba(78, 205, 196, 0.3);
+}
+
+.btn-complete:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(78, 205, 196, 0.4);
 }
 
 .actions .btn-view {
-  background: #f0f0f0;
-  color: #333;
+  background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
+  color: var(--text-dark);
 }
 
-.actions button:hover,
-.actions a:hover {
-  opacity: 0.85;
+.actions .btn-view:hover {
+  background: linear-gradient(135deg, #E5E7EB, #D1D5DB);
+  transform: translateY(-2px);
+}
+
+.empty-adoptions {
+  text-align: center;
+  padding: 4rem;
+  color: var(--text-light);
+}
+
+.empty-adoptions::before {
+  content: '📭';
+  display: block;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .adoptions-page {
+    padding: 1.5rem;
+  }
+
+  .adoptions-table {
+    overflow-x: auto;
+  }
+
+  .adoptions-table table {
+    min-width: 800px;
+  }
 }

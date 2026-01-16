@@ -1,7 +1,7 @@
 .pet-detail {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2.5rem;
 }
 
 .pet-detail-main {
@@ -11,10 +11,26 @@
   margin-bottom: 3rem;
 }
 
+.pet-detail-image {
+  position: relative;
+}
+
+.pet-detail-image::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent-yellow));
+  z-index: -1;
+}
+
 .pet-detail-image img {
   width: 100%;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(255, 107, 107, 0.2);
 }
 
 .pet-header {
@@ -25,23 +41,49 @@
 }
 
 .pet-header h1 {
-  font-size: 2.5rem;
-  color: #333;
+  font-size: 2.8rem;
+  color: var(--text-dark);
   margin: 0;
+  font-weight: 800;
+}
+
+.pet-header h1::before {
+  content: '🐾 ';
 }
 
 .status-badge {
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  border-radius: 25px;
   color: white;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.status-badge.available {
+  background: linear-gradient(135deg, var(--accent-green), #10B981);
+}
+
+.status-badge.adopted {
+  background: linear-gradient(135deg, #9CA3AF, #6B7280);
+}
+
+.status-badge.reserved {
+  background: linear-gradient(135deg, var(--accent-yellow), #F59E0B);
+  color: var(--text-dark);
+}
+
+.status-badge.medical-hold {
+  background: linear-gradient(135deg, var(--primary), #DC2626);
 }
 
 .pet-breed {
-  font-size: 1.2rem;
-  color: #666;
+  font-size: 1.3rem;
+  color: var(--text-light);
   margin-bottom: 1.5rem;
+  font-weight: 500;
 }
 
 .pet-attributes {
@@ -52,21 +94,32 @@
 }
 
 .attribute {
-  background: #f8f9fa;
-  padding: 1rem;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #FFF5F5 0%, #FFE8F5 100%);
+  padding: 1.2rem;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 107, 107, 0.1);
+  transition: all 0.3s ease;
+}
+
+.attribute:hover {
+  transform: translateY(-3px);
+  border-color: var(--secondary);
 }
 
 .attribute .label {
   display: block;
   font-size: 0.85rem;
-  color: #888;
-  margin-bottom: 0.3rem;
+  color: var(--text-light);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .attribute .value {
-  font-weight: 600;
-  color: #333;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-size: 1.1rem;
 }
 
 .pet-temperament,
@@ -76,15 +129,24 @@
 
 .pet-temperament h3,
 .pet-special-needs h3 {
-  color: #667eea;
+  color: var(--primary);
   margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.pet-temperament h3::before {
+  content: '💝 ';
 }
 
 .pet-special-needs {
-  background: #fff3cd;
-  padding: 1rem;
-  border-radius: 10px;
-  border-left: 4px solid #ffc107;
+  background: linear-gradient(135deg, #FFF3CD, #FFEAA7);
+  padding: 1.2rem;
+  border-radius: 16px;
+  border-left: 5px solid var(--accent-yellow);
+}
+
+.pet-special-needs h3::before {
+  content: '⚠️ ';
 }
 
 .pet-actions {
@@ -95,56 +157,79 @@
 
 .btn-favorite,
 .btn-adopt {
-  padding: 1rem 2rem;
-  border-radius: 10px;
+  padding: 1.1rem 2rem;
+  border-radius: 14px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   border: none;
 }
 
 .btn-favorite {
-  background: #f0f0f0;
-  color: #333;
-  border: 2px solid #ddd;
+  background: linear-gradient(135deg, #FFF5F5, #FFE8E8);
+  color: var(--text-dark);
+  border: 3px solid #E5E7EB;
+}
+
+.btn-favorite::before {
+  content: '🤍 ';
 }
 
 .btn-favorite:hover {
-  background: #e0e0e0;
+  background: linear-gradient(135deg, #FFE8E8, #FFCCCC);
+  border-color: var(--primary);
+  transform: translateY(-3px);
 }
 
 .btn-favorite.favorited {
-  background: #ffe0e0;
-  border-color: #f44336;
-  color: #f44336;
+  background: linear-gradient(135deg, #FFE0E0, #FFCCCC);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-favorite.favorited::before {
+  content: '❤️ ';
 }
 
 .btn-adopt {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-pink) 100%);
   color: white;
   flex: 1;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+.btn-adopt::before {
+  content: '🏠 ';
 }
 
 .btn-adopt:hover:not(:disabled) {
-  opacity: 0.9;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
 }
 
 .btn-adopt:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
 .vet-history {
-  background: #f8f9fa;
-  padding: 2rem;
-  border-radius: 16px;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(255, 107, 107, 0.1);
 }
 
 .vet-history h2 {
-  color: #333;
+  color: var(--text-dark);
   margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.vet-history h2::before {
+  content: '🏥 ';
 }
 
 .vet-cards {
@@ -154,10 +239,17 @@
 }
 
 .vet-card {
-  background: white;
+  background: linear-gradient(135deg, #FFFBF5 0%, #FFF5F0 100%);
   padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.vet-card:hover {
+  border-color: var(--secondary);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(78, 205, 196, 0.15);
 }
 
 .vet-card-header {
@@ -168,26 +260,55 @@
 }
 
 .visit-type {
-  background: #667eea;
+  background: linear-gradient(135deg, var(--secondary), #0EA5E9);
   color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
   font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .visit-date {
-  color: #888;
+  color: var(--text-light);
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .vet-card p {
   margin: 0.5rem 0;
-  color: #555;
+  color: var(--text-light);
   font-size: 0.95rem;
 }
 
+.no-vet-history {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-light);
+  background: linear-gradient(135deg, #FFF9F0, #FFF5F5);
+  border-radius: 16px;
+}
+
+.no-vet-history::before {
+  content: '📋';
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
 @media (max-width: 768px) {
+  .pet-detail {
+    padding: 1.5rem;
+  }
+
   .pet-detail-main {
+    grid-template-columns: 1fr;
+  }
+
+  .pet-header h1 {
+    font-size: 2rem;
+  }
+
+  .pet-attributes {
     grid-template-columns: 1fr;
   }
 
