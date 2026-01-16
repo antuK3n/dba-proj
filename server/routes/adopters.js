@@ -66,17 +66,38 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const {
-      Full_Name, Contact_No, Address, Housing_Type,
-      Has_Other_Pets, Has_Children, Experience_Level
+      Full_Name, Email, Contact_No, Address, Housing_Type,
+      Has_Other_Pets, Has_Children, Experience_Level, Password
     } = req.body;
 
-    await pool.query(
-      `UPDATE Adopter SET Full_Name = ?, Contact_No = ?, Address = ?,
-        Housing_Type = ?, Has_Other_Pets = ?, Has_Children = ?, Experience_Level = ?
-       WHERE Adopter_ID = ?`,
-      [Full_Name, Contact_No, Address, Housing_Type,
-        Has_Other_Pets, Has_Children, Experience_Level, req.params.id]
-    );
+    // Check if email is being changed to one that already exists
+    if (Email) {
+      const [existing] = await pool.query(
+        'SELECT Adopter_ID FROM Adopter WHERE Email = ? AND Adopter_ID != ?',
+        [Email, req.params.id]
+      );
+      if (existing.length > 0) {
+        return res.status(400).json({ error: 'Email already in use by another account' });
+      }
+    }
+
+    // Build update query dynamically
+    let updateQuery = `UPDATE Adopter SET Full_Name = ?, Email = ?, Contact_No = ?, Address = ?,
+        Housing_Type = ?, Has_Other_Pets = ?, Has_Children = ?, Experience_Level = ?`;
+    let params = [Full_Name, Email, Contact_No, Address, Housing_Type,
+        Has_Other_Pets, Has_Children, Experience_Level];
+
+    // If password is provided, hash it and add to update
+    if (Password) {
+      const hashedPassword = await bcrypt.hash(Password, 10);
+      updateQuery += `, Password_Hash = ?`;
+      params.push(hashedPassword);
+    }
+
+    updateQuery += ` WHERE Adopter_ID = ?`;
+    params.push(req.params.id);
+
+    await pool.query(updateQuery, params);
 
     const [updated] = await pool.query(
       'SELECT Adopter_ID, Email, Full_Name, Contact_No, Address, Housing_Type, Has_Other_Pets, Has_Children, Experience_Level FROM Adopter WHERE Adopter_ID = ?',

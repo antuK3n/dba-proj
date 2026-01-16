@@ -94,7 +94,7 @@ function AdminVaccinations() {
           <h1>Vaccination Management</h1>
           <p>Track pet vaccinations and schedules</p>
         </div>
-        <button className="btn-add" onClick={openAddModal}>+ Add Vaccination</button>
+        <button className="btn-add" onClick={openAddModal}>Add Vaccination</button>
       </div>
 
       <div className="data-table">
@@ -164,8 +164,8 @@ function AdminVaccinations() {
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Date Administered *</label>
-                  <input type="date" name="Date_Administered" value={formData.Date_Administered} onChange={handleChange} required />
+                  <label>Date Administered</label>
+                  <input type="date" name="Date_Administered" value={formData.Date_Administered} onChange={handleChange} />
                 </div>
                 <div className="form-group">
                   <label>Next Due Date</label>

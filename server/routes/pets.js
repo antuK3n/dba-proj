@@ -2,6 +2,85 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
+// =============================================
+// SUBQUERY 1: Top 10 Most Favorited Pets
+// Shows all available pets that rank in the top 10 by favorites, including ties
+// Ordered by rank, then alphabetically by name when tied
+// =============================================
+router.get('/popular', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        ranked.*,
+        (SELECT COUNT(DISTINCT fav_count) + 1
+         FROM (SELECT COUNT(*) as fav_count FROM Favorite GROUP BY Pet_ID) counts
+         WHERE fav_count > ranked.favorite_count) as pet_rank
+      FROM (
+        SELECT p.Pet_ID, p.Pet_Name, p.Species, p.Breed, p.Age, p.Photo_URL, COUNT(f.Favorite_ID) as favorite_count
+        FROM Pet p
+        JOIN Favorite f ON p.Pet_ID = f.Pet_ID
+        WHERE p.Status = 'Available'
+        GROUP BY p.Pet_ID
+        HAVING COUNT(f.Favorite_ID) >= (
+            SELECT MIN(top_counts.fav_count)
+            FROM (
+                SELECT DISTINCT COUNT(*) as fav_count
+                FROM Favorite
+                GROUP BY Pet_ID
+                ORDER BY fav_count DESC
+                LIMIT 10
+            ) as top_counts
+        )
+      ) as ranked
+      ORDER BY favorite_count DESC, Pet_Name ASC
+    `);
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// =============================================
+// SUBQUERY 2: New Arrivals Section
+// Shows all available pets that rank in the top 5 most recent arrivals, including ties
+// =============================================
+router.get('/new-arrivals', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT p.Pet_ID, p.Pet_Name, p.Species, p.Breed, p.Age, p.Photo_URL, p.Date_Arrived
+      FROM Pet p
+      WHERE p.Status = 'Available'
+      AND p.Date_Arrived >= (
+          SELECT MIN(top_dates.Date_Arrived)
+          FROM (
+              SELECT DISTINCT Date_Arrived
+              FROM Pet
+              WHERE Status = 'Available'
+              ORDER BY Date_Arrived DESC
+              LIMIT 5
+          ) as top_dates
+      )
+      ORDER BY p.Date_Arrived DESC
+    `);
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// =============================================
+// STORED PROCEDURE 1: Search Available Pets by Species
+// Uses stored procedure to filter available pets by species
+// =============================================
+router.get('/search-by-species/:species', async (req, res) => {
+  try {
+    const [rows] = await pool.query('CALL sp_get_available_pets_by_species(?)', [req.params.species]);
+    res.json(rows[0]); // Stored procedures return nested arrays
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get all pets
 router.get('/', async (req, res) => {
   try {

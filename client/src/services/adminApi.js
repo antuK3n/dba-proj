@@ -18,6 +18,21 @@ adminApi.interceptors.request.use((config) => {
   return config;
 });
 
+// Handle response errors (401 = unauthorized, redirect to login)
+adminApi.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('adminToken');
+      // Only redirect if we're in admin routes
+      if (window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
+        window.location.href = '/admin/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Auth
 export const adminLogin = (data) => axios.post(`${API_URL}/auth/login`, data);
 export const getAdminUser = () => adminApi.get('/auth/me');
@@ -44,6 +59,11 @@ export const getAdminAdoptions = (params) => adminApi.get('/adoptions', { params
 export const cancelAdoption = (id) => adminApi.put(`/adoptions/${id}/cancel`);
 export const completeAdoption = (id) => adminApi.put(`/adoptions/${id}/complete`);
 export const deleteAdminAdoption = (id) => adminApi.delete(`/adoptions/${id}`);
+
+// Reports (JOINs and Stored Procedures)
+export const getPendingApplications = () => adminApi.get('/adoptions/pending-applications');
+export const getAdoptionReport = () => adminApi.get('/adoptions/report');
+export const getMonthlyStats = (year, month) => adminApi.get(`/reports/monthly-stats/${year}/${month}`);
 
 // Vet Visits
 export const getAdminVetVisits = (params) => adminApi.get('/vet-visits', { params });

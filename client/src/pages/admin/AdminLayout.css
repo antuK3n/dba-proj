@@ -28,9 +28,6 @@
   font-weight: 800;
 }
 
-.sidebar-header h2::before {
-  content: '🐾 ';
-}
 
 .sidebar-header span {
   font-size: 0.9rem;

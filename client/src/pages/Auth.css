@@ -67,13 +67,6 @@
   font-weight: 800;
 }
 
-.auth-card h1::before {
-  content: '🐾 ';
-}
-
-.auth-card h1::after {
-  content: ' 🐾';
-}
 
 .auth-card > p {
   color: var(--text-light);

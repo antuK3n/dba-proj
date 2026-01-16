@@ -14,14 +14,14 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <Link to="/">Pet Adoption Center</Link>
+        <Link to="/">PetHaven</Link>
       </div>
       <div className="navbar-links">
         <Link to="/">Home</Link>
         <Link to="/pets">Pets</Link>
         {user ? (
           <>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/profile">Profile</Link>
             <Link to="/favorites">Favorites</Link>
             <Link to="/adoptions">Adoptions</Link>
             <Link to="/vet-visits">Vet Visits</Link>

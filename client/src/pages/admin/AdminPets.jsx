@@ -97,7 +97,7 @@ function AdminPets() {
           <h1>Pet Management</h1>
           <p>Manage all pets in the system</p>
         </div>
-        <button className="btn-add" onClick={openAddModal}>+ Add Pet</button>
+        <button className="btn-add" onClick={openAddModal}>Add Pet</button>
       </div>
 
       <div className="filters-bar">
@@ -237,7 +237,17 @@ function AdminPets() {
               </div>
               <div className="form-group">
                 <label>Photo URL</label>
-                <input type="text" name="Photo_URL" value={formData.Photo_URL} onChange={handleChange} />
+                <input type="text" name="Photo_URL" value={formData.Photo_URL} onChange={handleChange} placeholder="Paste image URL here" />
+                {formData.Photo_URL && (
+                  <div className="photo-preview" style={{ marginTop: '0.5rem' }}>
+                    <img
+                      src={formData.Photo_URL}
+                      alt="Preview"
+                      style={{ maxWidth: '200px', maxHeight: '150px', borderRadius: '8px', objectFit: 'cover' }}
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                  </div>
+                )}
               </div>
               <div className="form-group">
                 <label>Special Needs</label>

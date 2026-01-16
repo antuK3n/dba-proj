@@ -67,17 +67,17 @@ router.get('/dashboard/activity', async (req, res) => {
       FROM Adoption a
       JOIN Pet p ON a.Pet_ID = p.Pet_ID
       JOIN Adopter ad ON a.Adopter_ID = ad.Adopter_ID
-      ORDER BY a.created_at DESC
+      ORDER BY a.Adoption_ID DESC
       LIMIT 5
     `);
 
     const [recentPets] = await pool.query(`
-      SELECT * FROM Pet ORDER BY created_at DESC LIMIT 5
+      SELECT * FROM Pet ORDER BY Pet_ID DESC LIMIT 5
     `);
 
     const [recentAdopters] = await pool.query(`
-      SELECT Adopter_ID, Email, Full_Name, created_at FROM Adopter
-      ORDER BY created_at DESC LIMIT 5
+      SELECT Adopter_ID, Email, Full_Name FROM Adopter
+      ORDER BY Adopter_ID DESC LIMIT 5
     `);
 
     res.json({ recentAdoptions, recentPets, recentAdopters });
@@ -108,7 +108,7 @@ router.get('/pets', async (req, res) => {
       params.push(`%${search}%`, `%${search}%`);
     }
 
-    query += ' ORDER BY created_at DESC';
+    query += ' ORDER BY Pet_ID DESC';
     const [rows] = await pool.query(query, params);
     res.json(rows);
   } catch (error) {
@@ -197,11 +197,10 @@ router.get('/adopters', async (req, res) => {
     const [rows] = await pool.query(`
       SELECT a.Adopter_ID, a.Email, a.Full_Name, a.Contact_No, a.Address,
              a.Housing_Type, a.Has_Other_Pets, a.Has_Children, a.Experience_Level,
-             a.created_at,
              (SELECT COUNT(*) FROM Adoption WHERE Adopter_ID = a.Adopter_ID) as adoption_count,
              (SELECT COUNT(*) FROM Favorite WHERE Adopter_ID = a.Adopter_ID) as favorites_count
       FROM Adopter a
-      ORDER BY a.created_at DESC
+      ORDER BY a.Adopter_ID DESC
     `);
     res.json(rows);
   } catch (error) {
@@ -213,7 +212,7 @@ router.get('/adopters/:id', async (req, res) => {
   try {
     const [rows] = await pool.query(
       `SELECT Adopter_ID, Email, Full_Name, Contact_No, Address, Housing_Type,
-              Has_Other_Pets, Has_Children, Experience_Level, created_at
+              Has_Other_Pets, Has_Children, Experience_Level
        FROM Adopter WHERE Adopter_ID = ?`,
       [req.params.id]
     );
@@ -267,6 +266,89 @@ router.delete('/adopters/:id', async (req, res) => {
 // =============================================
 // ADOPTION MANAGEMENT
 // =============================================
+
+// =============================================
+// JOIN 1: Pending Adoption Applications for Initial Screening
+// Find all pending adoption applications so the manager can quickly review
+// basic pet and adopter information needed for an initial screening
+// =============================================
+router.get('/adoptions/pending-applications', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+          a.Adoption_ID,
+          a.Application_Date,
+          a.Status,
+          p.Pet_Name,
+          p.Species,
+          p.Breed,
+          p.Age,
+          ad.Full_Name,
+          ad.Email,
+          ad.Contact_No,
+          ad.Housing_Type,
+          ad.Experience_Level
+      FROM Adoption a
+      JOIN Pet p ON a.Pet_ID = p.Pet_ID
+      JOIN Adopter ad ON a.Adopter_ID = ad.Adopter_ID
+      WHERE a.Status = 'Pending'
+      ORDER BY a.Application_Date ASC
+    `);
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// =============================================
+// JOIN 2: Adoption Management Report
+// Shows all adoptions with complete pet and adopter information
+// for admin oversight and record-keeping
+// =============================================
+router.get('/adoptions/report', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+          a.Adoption_ID,
+          a.Application_Date,
+          a.Status,
+          a.Adoption_Date,
+          a.Adoption_Fee,
+          a.Contract_Signed,
+          p.Pet_Name,
+          p.Species,
+          p.Breed,
+          p.Age,
+          ad.Full_Name,
+          ad.Email,
+          ad.Contact_No,
+          ad.Housing_Type,
+          ad.Experience_Level
+      FROM Adoption a
+      JOIN Pet p ON a.Pet_ID = p.Pet_ID
+      JOIN Adopter ad ON a.Adopter_ID = ad.Adopter_ID
+      ORDER BY a.Application_Date DESC
+    `);
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// =============================================
+// STORED PROCEDURE 2: Monthly Adoption Statistics Report
+// Generates adoption statistics for any given month for business reporting
+// =============================================
+router.get('/reports/monthly-stats/:year/:month', async (req, res) => {
+  try {
+    const { year, month } = req.params;
+    const [rows] = await pool.query('CALL sp_monthly_adoption_stats(?, ?)', [parseInt(year), parseInt(month)]);
+    res.json(rows[0][0]); // Stored procedures return nested arrays
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.get('/adoptions', async (req, res) => {
   try {
     const { status } = req.query;
@@ -285,7 +367,7 @@ router.get('/adoptions', async (req, res) => {
       params.push(status);
     }
 
-    query += ' ORDER BY a.created_at DESC';
+    query += ' ORDER BY a.Adoption_ID DESC';
     const [rows] = await pool.query(query, params);
     res.json(rows);
   } catch (error) {
@@ -539,7 +621,7 @@ router.delete('/vaccinations/:id', async (req, res) => {
 router.get('/users', verifyAdmin, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, created_at FROM Admin'
+      'SELECT Admin_ID, Email, Full_Name FROM Admin ORDER BY Admin_ID DESC'
     );
     res.json(rows);
   } catch (error) {

@@ -16,13 +16,6 @@
   margin-bottom: 0.5rem;
 }
 
-.adoptions-page .page-header h1::before {
-  content: '📋 ';
-}
-
-.adoptions-page .page-header h1::after {
-  content: ' 📋';
-}
 
 .adoptions-page .filters {
   display: flex;

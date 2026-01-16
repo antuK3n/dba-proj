@@ -16,13 +16,6 @@
   font-weight: 800;
 }
 
-.page-header h1::before {
-  content: '❤️ ';
-}
-
-.page-header h1::after {
-  content: ' ❤️';
-}
 
 .page-header p {
   color: var(--text-light);

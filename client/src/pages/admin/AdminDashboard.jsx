@@ -35,7 +35,7 @@ function AdminDashboard() {
     <div className="admin-dashboard">
       <div className="dashboard-header">
         <h1>Dashboard</h1>
-        <p>Welcome to the Pet Adoption Center Admin Panel</p>
+        <p>Welcome to the PetHaven Admin Panel</p>
       </div>
 
       <div className="stats-grid">

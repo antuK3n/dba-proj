@@ -94,7 +94,7 @@ function AdminVetVisits() {
           <h1>Vet Visits Management</h1>
           <p>Track and manage veterinary visits</p>
         </div>
-        <button className="btn-add" onClick={openAddModal}>+ Add Visit</button>
+        <button className="btn-add" onClick={openAddModal}>Add Visit</button>
       </div>
 
       <div className="data-table">
@@ -116,6 +116,7 @@ function AdminVetVisits() {
               <tr key={visit.Visit_ID}>
                 <td>
                   <strong>{visit.Pet_Name}</strong>
+                  <br />
                   <span className="text-small">{visit.Species}</span>
                 </td>
                 <td>{new Date(visit.Visit_Date).toLocaleDateString()}</td>

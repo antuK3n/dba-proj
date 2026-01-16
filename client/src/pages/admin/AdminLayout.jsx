@@ -17,6 +17,7 @@ function AdminLayout() {
     { path: '/admin/pets', label: 'Pets', icon: '🐕' },
     { path: '/admin/adopters', label: 'Adopters', icon: '👥' },
     { path: '/admin/adoptions', label: 'Adoptions', icon: '📋' },
+    { path: '/admin/reports', label: 'Reports', icon: '📈' },
     { path: '/admin/vet-visits', label: 'Vet Visits', icon: '🏥' },
     { path: '/admin/vaccinations', label: 'Vaccinations', icon: '💉' },
   ];
@@ -33,7 +34,7 @@ function AdminLayout() {
       <aside className="admin-sidebar">
         <div className="sidebar-header">
           <h2>Admin Panel</h2>
-          <span>Pet Adoption Center</span>
+          <span>PetHaven</span>
         </div>
         <nav className="sidebar-nav">
           {navItems.map((item) => (
@@ -50,7 +51,7 @@ function AdminLayout() {
         <div className="sidebar-footer">
           <div className="admin-info">
             <span className="admin-name">{admin?.Full_Name}</span>
-            <span className="admin-role">{admin?.Role}</span>
+            {admin?.Role && <span className="admin-role">{admin.Role}</span>}
           </div>
           <button onClick={handleLogout} className="btn-logout">
             Logout

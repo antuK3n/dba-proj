@@ -430,6 +430,74 @@
   box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
 }
 
+/* Photo Preview & Crop */
+.photo-preview-group {
+  margin-bottom: 1.5rem;
+}
+
+.photo-preview-container {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1rem;
+  background: #F9FAFB;
+  border-radius: 12px;
+  border: 2px dashed #E5E7EB;
+}
+
+.photo-preview {
+  width: 150px;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.crop-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.crop-controls label {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+}
+
+.crop-controls input[type="range"] {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.crop-controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.crop-controls small {
+  color: var(--text-light);
+  font-size: 0.8rem;
+}
+
 /* Empty state */
 .empty-state {
   text-align: center;

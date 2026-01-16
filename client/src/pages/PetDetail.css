@@ -47,9 +47,6 @@
   font-weight: 800;
 }
 
-.pet-header h1::before {
-  content: '🐾 ';
-}
 
 .status-badge {
   padding: 0.5rem 1.2rem;

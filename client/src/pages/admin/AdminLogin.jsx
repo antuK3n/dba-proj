@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { adminLogin } from '../../services/adminApi';
 import { useAdminAuth } from '../../context/AdminAuthContext';
@@ -6,13 +6,21 @@ import './AdminLogin.css';
 
 function AdminLogin() {
   const navigate = useNavigate();
-  const { loginAdmin } = useAdminAuth();
+  const { admin, loading, loginAdmin } = useAdminAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!loading && admin) {
+      navigate('/admin');
+    }
+  }, [admin, loading, navigate]);
+
   const [formData, setFormData] = useState({
     Email: '',
     Password: '',
   });
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,7 +29,7 @@ function AdminLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
+    setSubmitting(true);
 
     try {
       const res = await adminLogin(formData);
@@ -30,16 +38,30 @@ function AdminLogin() {
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
+
+  // Show loading while checking auth state
+  if (loading) {
+    return (
+      <div className="admin-login-page">
+        <div className="admin-login-card">
+          <div className="admin-login-header">
+            <h1>Admin Panel</h1>
+            <p>Checking authentication...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-login-page">
       <div className="admin-login-card">
         <div className="admin-login-header">
           <h1>Admin Panel</h1>
-          <p>Pet Adoption Center</p>
+          <p>PetHaven</p>
         </div>
 
         {error && <div className="error-message">{error}</div>}
@@ -67,8 +89,8 @@ function AdminLogin() {
               required
             />
           </div>
-          <button type="submit" className="btn-login" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
+          <button type="submit" className="btn-login" disabled={submitting}>
+            {submitting ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 

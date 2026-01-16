@@ -57,9 +57,14 @@ function Pets() {
           <option value="Dog">Dogs</option>
           <option value="Cat">Cats</option>
         </select>
-        <select name="status" value={filters.status} onChange={handleFilterChange}>
+        <select
+          name="status"
+          value={filters.status}
+          onChange={handleFilterChange}
+        >
           <option value="">All Status</option>
           <option value="Available">Available</option>
+          <option value="Adopted">Adopted</option>
           <option value="Reserved">Reserved</option>
           <option value="Medical Hold">Medical Hold</option>
         </select>

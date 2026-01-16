@@ -31,9 +31,6 @@
   font-weight: 800;
 }
 
-.dashboard-header h1::before {
-  content: '📊 ';
-}
 
 .dashboard-header p {
   color: var(--text-light);

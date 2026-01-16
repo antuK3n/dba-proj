@@ -1,18 +1,27 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getPets } from '../services/api';
+import { getPopularPets, getNewArrivals } from '../services/api';
 import PetCard from '../components/PetCard';
 import './Home.css';
 
 function Home() {
-  const [featuredPets, setFeaturedPets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [popularPets, setPopularPets] = useState([]);
+  const [newArrivals, setNewArrivals] = useState([]);
+  const [loadingPopular, setLoadingPopular] = useState(true);
+  const [loadingNew, setLoadingNew] = useState(true);
 
   useEffect(() => {
-    getPets({ status: 'Available' })
-      .then((res) => setFeaturedPets(res.data.slice(0, 6)))
+    // Fetch Popular Pets (Subquery 1: Top 10 Most Favorited)
+    getPopularPets()
+      .then((res) => setPopularPets(res.data))
       .catch(console.error)
-      .finally(() => setLoading(false));
+      .finally(() => setLoadingPopular(false));
+
+    // Fetch New Arrivals (Subquery 2: Recent Arrivals)
+    getNewArrivals()
+      .then((res) => setNewArrivals(res.data))
+      .catch(console.error)
+      .finally(() => setLoadingNew(false));
   }, []);
 
   return (
@@ -30,19 +39,40 @@ function Home() {
         </div>
       </section>
 
+      {/* SUBQUERY 1: Top 10 Most Favorited Pets */}
       <section className="featured-section">
-        <h2>Featured Pets</h2>
-        {loading ? (
-          <div className="loading">Loading...</div>
+        <h2>Most Popular Pets</h2>
+        <p className="section-subtitle">Top favorited pets by our community</p>
+        {loadingPopular ? (
+          <div className="loading">Loading popular pets...</div>
+        ) : popularPets.length === 0 ? (
+          <div className="no-pets">No popular pets yet. Start favoriting!</div>
         ) : (
           <div className="pets-grid">
-            {featuredPets.map((pet) => (
-              <PetCard key={pet.Pet_ID} pet={pet} />
+            {popularPets.map((pet) => (
+              <PetCard key={pet.Pet_ID} pet={pet} showFavoriteCount={true} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* SUBQUERY 2: New Arrivals */}
+      <section className="featured-section new-arrivals">
+        <h2>New Arrivals</h2>
+        <p className="section-subtitle">Recently added pets looking for homes</p>
+        {loadingNew ? (
+          <div className="loading">Loading new arrivals...</div>
+        ) : newArrivals.length === 0 ? (
+          <div className="no-pets">No new arrivals at the moment.</div>
+        ) : (
+          <div className="pets-grid">
+            {newArrivals.map((pet) => (
+              <PetCard key={pet.Pet_ID} pet={pet} showArrivalDate={true} />
             ))}
           </div>
         )}
         <Link to="/pets" className="btn-secondary">
-          See More Pets
+          See All Pets
         </Link>
       </section>
 

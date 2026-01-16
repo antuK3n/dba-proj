@@ -68,7 +68,7 @@ router.get('/me', async (req, res) => {
     }
 
     const [admins] = await pool.query(
-      'SELECT Admin_ID, Email, Full_Name, created_at FROM Admin WHERE Admin_ID = ?',
+      'SELECT Admin_ID, Email, Full_Name FROM Admin WHERE Admin_ID = ?',
       [decoded.id]
     );
 

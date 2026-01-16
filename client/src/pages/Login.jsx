@@ -26,7 +26,7 @@ function Login() {
     try {
       const res = await login(formData);
       loginUser(res.data.user, res.data.token);
-      navigate('/dashboard');
+      navigate('/profile');
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     } finally {

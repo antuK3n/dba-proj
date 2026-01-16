@@ -26,6 +26,13 @@ export const updatePet = (id, data) => api.put(`/pets/${id}`, data);
 export const deletePet = (id) => api.delete(`/pets/${id}`);
 export const getPetVetHistory = (id) => api.get(`/pets/${id}/vet-history`);
 
+// Featured Pets (Subqueries)
+export const getPopularPets = () => api.get('/pets/popular');
+export const getNewArrivals = () => api.get('/pets/new-arrivals');
+
+// Search by Species (Stored Procedure)
+export const searchPetsBySpecies = (species) => api.get(`/pets/search-by-species/${species}`);
+
 // Adopters
 export const getAdopters = () => api.get('/adopters');
 export const getAdopter = (id) => api.get(`/adopters/${id}`);
@@ -62,5 +69,8 @@ export const checkFavorite = (adopterId, petId) => api.get(`/favorites/check/${a
 export const login = (data) => api.post('/auth/login', data);
 export const register = (data) => api.post('/auth/register', data);
 export const getCurrentUser = () => api.get('/auth/me');
+
+// Profile
+export const updateProfile = (id, data) => api.put(`/adopters/${id}`, data);
 
 export default api;

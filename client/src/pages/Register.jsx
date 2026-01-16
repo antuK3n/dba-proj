@@ -33,7 +33,7 @@ function Register() {
     try {
       const res = await register(formData);
       loginUser(res.data.user, res.data.token);
-      navigate('/dashboard');
+      navigate('/profile');
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed');
     } finally {

@@ -50,18 +50,6 @@
   line-height: 1.2;
 }
 
-.hero h1::before {
-  content: '🐾 ';
-  animation: bounce 1s ease-in-out infinite;
-  display: inline-block;
-}
-
-.hero h1::after {
-  content: ' 🐾';
-  animation: bounce 1s ease-in-out infinite;
-  animation-delay: 0.5s;
-  display: inline-block;
-}
 
 .hero p {
   font-size: 1.4rem;
@@ -126,9 +114,27 @@
   content: ' ⭐';
 }
 
-.featured-section > p {
+.featured-section > p,
+.section-subtitle {
   color: var(--text-light);
   margin-bottom: 3rem;
+  font-size: 1.1rem;
+}
+
+.featured-section.new-arrivals h2::before {
+  content: '🆕 ';
+}
+
+.featured-section.new-arrivals h2::after {
+  content: ' 🆕';
+}
+
+.no-pets {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-light);
+  background: linear-gradient(135deg, #FFF9F0, #FFF5F5);
+  border-radius: 20px;
   font-size: 1.1rem;
 }
 
