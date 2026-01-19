@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
+import { Info } from 'lucide-react';
 import { getAdminAdoptions, cancelAdoption, completeAdoption, deleteAdminAdoption } from '../../services/adminApi';
 import './AdminCommon.css';
 
@@ -6,6 +7,19 @@ function AdminAdoptions() {
   const [adoptions, setAdoptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [expandedRows, setExpandedRows] = useState(new Set());
+
+  const toggleRowExpansion = (id) => {
+    setExpandedRows(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
 
   useEffect(() => {
     fetchAdoptions();
@@ -98,47 +112,76 @@ function AdminAdoptions() {
           </thead>
           <tbody>
             {filteredAdoptions.map((adoption) => (
-              <tr key={adoption.Adoption_ID}>
-                <td>
-                  <div className="cell-with-img">
-                    <img
-                      src={adoption.Photo_URL || 'https://via.placeholder.com/40?text=Pet'}
-                      alt={adoption.Pet_Name}
-                      className="table-img-sm"
-                    />
-                    <div>
-                      <strong>{adoption.Pet_Name}</strong>
-                      <span>{adoption.Species}</span>
+              <Fragment key={adoption.Adoption_ID}>
+                <tr className={expandedRows.has(adoption.Adoption_ID) ? 'row-expanded' : ''}>
+                  <td>
+                    <div className="cell-with-img">
+                      <img
+                        src={adoption.Photo_URL || 'https://via.placeholder.com/40?text=Pet'}
+                        alt={adoption.Pet_Name}
+                        className="table-img-sm"
+                      />
+                      <div>
+                        <strong>{adoption.Pet_Name}</strong>
+                        <span>{adoption.Species}</span>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <strong>{adoption.Adopter_Name}</strong>
-                    <br />
-                    <span className="text-small">{adoption.Adopter_Email}</span>
-                  </div>
-                </td>
-                <td>{adoption.Contact_No || '-'}</td>
-                <td>P{adoption.Adoption_Fee?.toLocaleString() || '0'}</td>
-                <td>
-                  <span className={`badge ${adoption.Status.toLowerCase()}`}>
-                    {adoption.Status}
-                  </span>
-                </td>
-                <td>{adoption.Adoption_Date ? new Date(adoption.Adoption_Date).toLocaleDateString() : '-'}</td>
-                <td>
-                  <div className="action-btns">
-                    {adoption.Status === 'Pending' && (
-                      <>
-                        <button className="btn-complete" onClick={() => handleComplete(adoption.Adoption_ID)}>Complete</button>
-                        <button className="btn-deny" onClick={() => handleCancel(adoption.Adoption_ID)}>Cancel</button>
-                      </>
-                    )}
-                    <button className="btn-delete" onClick={() => handleDelete(adoption.Adoption_ID)}>Delete</button>
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                  <td>
+                    <div>
+                      <strong>{adoption.Adopter_Name}</strong>
+                      <br />
+                      <span className="text-small">{adoption.Adopter_Email}</span>
+                    </div>
+                  </td>
+                  <td>{adoption.Contact_No || '-'}</td>
+                  <td>P{adoption.Adoption_Fee?.toLocaleString() || '0'}</td>
+                  <td>
+                    <span className={`badge ${adoption.Status.toLowerCase()}`}>
+                      {adoption.Status}
+                    </span>
+                  </td>
+                  <td>{adoption.Adoption_Date ? new Date(adoption.Adoption_Date).toLocaleDateString() : '-'}</td>
+                  <td>
+                    <div className="action-btns">
+                      <button
+                        className={`btn-info-icon ${expandedRows.has(adoption.Adoption_ID) ? 'active' : ''}`}
+                        onClick={() => toggleRowExpansion(adoption.Adoption_ID)}
+                        title="More info"
+                      >
+                        <Info size={16} />
+                      </button>
+                      {adoption.Status === 'Pending' && (
+                        <>
+                          <button className="btn-complete" onClick={() => handleComplete(adoption.Adoption_ID)}>Complete</button>
+                          <button className="btn-deny" onClick={() => handleCancel(adoption.Adoption_ID)}>Cancel</button>
+                        </>
+                      )}
+                      <button className="btn-delete" onClick={() => handleDelete(adoption.Adoption_ID)}>Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                {expandedRows.has(adoption.Adoption_ID) && (
+                  <tr className="details-row">
+                    <td colSpan="7">
+                      <div className="details-content">
+                        <div className="detail-item">
+                          <span className="detail-label">Application Date</span>
+                          <span className="detail-value">{adoption.Application_Date ? new Date(adoption.Application_Date).toLocaleDateString() : 'Not recorded'}</span>
+                        </div>
+                        <div className="detail-item">
+                          <span className="detail-label">Contract Signed</span>
+                          <span className="detail-value">{adoption.Contract_Signed || 'No'}</span>
+                        </div>
+                        <div className="detail-item">
+                          <span className="detail-label">Address</span>
+                          <span className="detail-value">{adoption.Address || 'Not provided'}</span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
             ))}
           </tbody>
         </table>

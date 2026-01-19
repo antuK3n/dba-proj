@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
+import { Info } from 'lucide-react';
 import { getAdminVetVisits, createAdminVetVisit, updateAdminVetVisit, deleteAdminVetVisit, getAdminPets } from '../../services/adminApi';
 import './AdminCommon.css';
 
@@ -8,6 +9,20 @@ function AdminVetVisits() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingVisit, setEditingVisit] = useState(null);
+  const [expandedRows, setExpandedRows] = useState(new Set());
+
+  const toggleRowExpansion = (id) => {
+    setExpandedRows(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
   const [formData, setFormData] = useState({
     Pet_ID: '', Visit_Date: new Date().toISOString().split('T')[0],
     Veterinarian_Name: '', Visit_Type: 'Checkup', Weight: '', Temperature: '',
@@ -112,29 +127,58 @@ function AdminVetVisits() {
           </thead>
           <tbody>
             {visits.map((visit) => (
-              <tr key={visit.Visit_ID}>
-                <td>
-                  <strong>{visit.Pet_Name}</strong>
-                  <br />
-                  <span className="text-small">{visit.Species}</span>
-                </td>
-                <td>{new Date(visit.Visit_Date).toLocaleDateString()}</td>
-                <td>
-                  <span className={`badge ${visit.Visit_Type.toLowerCase()}`}>
-                    {visit.Visit_Type}
-                  </span>
-                </td>
-                <td>{visit.Veterinarian_Name || '-'}</td>
-                <td>{visit.Weight ? `${visit.Weight} kg` : '-'}</td>
-                <td className="truncate">{visit.Diagnosis || '-'}</td>
-                <td>P{visit.Procedure_Cost?.toLocaleString() || '0'}</td>
-                <td>
-                  <div className="action-btns">
-                    <button className="btn-edit" onClick={() => openEditModal(visit)}>Edit</button>
-                    <button className="btn-delete" onClick={() => handleDelete(visit.Visit_ID)}>Delete</button>
-                  </div>
-                </td>
-              </tr>
+              <Fragment key={visit.Visit_ID}>
+                <tr className={expandedRows.has(visit.Visit_ID) ? 'row-expanded' : ''}>
+                  <td>
+                    <strong>{visit.Pet_Name}</strong>
+                    <br />
+                    <span className="text-small">{visit.Species}</span>
+                  </td>
+                  <td>{new Date(visit.Visit_Date).toLocaleDateString()}</td>
+                  <td>
+                    <span className={`badge ${visit.Visit_Type.toLowerCase()}`}>
+                      {visit.Visit_Type}
+                    </span>
+                  </td>
+                  <td>{visit.Veterinarian_Name || '-'}</td>
+                  <td>{visit.Weight ? `${visit.Weight} kg` : '-'}</td>
+                  <td className="truncate">{visit.Diagnosis || '-'}</td>
+                  <td>P{visit.Procedure_Cost?.toLocaleString() || '0'}</td>
+                  <td>
+                    <div className="action-btns">
+                      <button
+                        className={`btn-info-icon ${expandedRows.has(visit.Visit_ID) ? 'active' : ''}`}
+                        onClick={() => toggleRowExpansion(visit.Visit_ID)}
+                        title="More info"
+                      >
+                        <Info size={16} />
+                      </button>
+                      <button className="btn-edit" onClick={() => openEditModal(visit)}>Edit</button>
+                      <button className="btn-delete" onClick={() => handleDelete(visit.Visit_ID)}>Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                {expandedRows.has(visit.Visit_ID) && (
+                  <tr className="details-row">
+                    <td colSpan="8">
+                      <div className="details-content">
+                        <div className="detail-item">
+                          <span className="detail-label">Temperature</span>
+                          <span className="detail-value">{visit.Temperature ? `${visit.Temperature}°C` : 'Not recorded'}</span>
+                        </div>
+                        <div className="detail-item">
+                          <span className="detail-label">General Notes</span>
+                          <span className="detail-value">{visit.General_Notes || 'No notes'}</span>
+                        </div>
+                        <div className="detail-item">
+                          <span className="detail-label">Next Visit Date</span>
+                          <span className="detail-value">{visit.Next_Visit_Date ? new Date(visit.Next_Visit_Date).toLocaleDateString() : 'Not scheduled'}</span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
             ))}
           </tbody>
         </table>

@@ -81,6 +81,16 @@ router.get('/search-by-species/:species', async (req, res) => {
   }
 });
 
+// Get distinct species for filter dropdown
+router.get('/species', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT DISTINCT Species FROM Pet ORDER BY Species');
+    res.json(rows.map(r => r.Species));
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get all pets
 router.get('/', async (req, res) => {
   try {

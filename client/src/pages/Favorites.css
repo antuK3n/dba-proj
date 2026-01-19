@@ -64,6 +64,41 @@
   flex-direction: column;
 }
 
+.favorite-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(135deg, #FFF9F0, #FFF5F5);
+  border-radius: 12px;
+  margin-top: 0.8rem;
+}
+
+.favorite-meta .meta-item {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.favorite-meta .meta-label {
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.favorite-meta .meta-value {
+  color: var(--text-dark);
+}
+
+.favorite-meta .notes {
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.favorite-meta .notes .meta-value {
+  font-style: italic;
+  color: var(--text-light);
+}
+
 .btn-remove {
   margin-top: 0.8rem;
   padding: 1rem;

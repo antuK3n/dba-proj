@@ -54,6 +54,18 @@ function Favorites() {
           {favorites.map((fav) => (
             <div key={fav.Favorite_ID} className="favorite-item">
               <PetCard pet={fav} />
+              <div className="favorite-meta">
+                <span className="meta-item">
+                  <span className="meta-label">Added:</span>
+                  <span className="meta-value">{fav.Date_Added ? new Date(fav.Date_Added).toLocaleDateString() : 'Unknown'}</span>
+                </span>
+                {fav.Notes && (
+                  <span className="meta-item notes">
+                    <span className="meta-label">Notes:</span>
+                    <span className="meta-value">{fav.Notes}</span>
+                  </span>
+                )}
+              </div>
               <button
                 onClick={() => handleRemove(fav.Favorite_ID)}
                 className="btn-remove"

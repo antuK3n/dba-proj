@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { getPets } from '../services/api';
+import { getPets, getSpecies } from '../services/api';
 import PetCard from '../components/PetCard';
 import './Pets.css';
 
 function Pets() {
   const [pets, setPets] = useState([]);
+  const [speciesList, setSpeciesList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     species: '',
@@ -13,8 +14,21 @@ function Pets() {
   });
 
   useEffect(() => {
+    fetchSpecies();
+  }, []);
+
+  useEffect(() => {
     fetchPets();
   }, [filters]);
+
+  const fetchSpecies = async () => {
+    try {
+      const res = await getSpecies();
+      setSpeciesList(res.data);
+    } catch (error) {
+      console.error('Error fetching species:', error);
+    }
+  };
 
   const fetchPets = async () => {
     setLoading(true);
@@ -54,8 +68,9 @@ function Pets() {
         />
         <select name="species" value={filters.species} onChange={handleFilterChange}>
           <option value="">All Species</option>
-          <option value="Dog">Dogs</option>
-          <option value="Cat">Cats</option>
+          {speciesList.map((species) => (
+            <option key={species} value={species}>{species}s</option>
+          ))}
         </select>
         <select
           name="status"

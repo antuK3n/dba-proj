@@ -20,6 +20,7 @@ api.interceptors.request.use((config) => {
 
 // Pets
 export const getPets = (params) => api.get('/pets', { params });
+export const getSpecies = () => api.get('/pets/species');
 export const getPet = (id) => api.get(`/pets/${id}`);
 export const createPet = (data) => api.post('/pets', data);
 export const updatePet = (id, data) => api.put(`/pets/${id}`, data);
@@ -72,5 +73,14 @@ export const getCurrentUser = () => api.get('/auth/me');
 
 // Profile
 export const updateProfile = (id, data) => api.put(`/adopters/${id}`, data);
+
+// Upload
+export const uploadImage = (file) => {
+  const formData = new FormData();
+  formData.append('image', file);
+  return api.post('/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+};
 
 export default api;
