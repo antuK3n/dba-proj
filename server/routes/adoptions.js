@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
-// Get all adoptions
+// Get all adoptions (can filter by adopter_id for user's own adoptions)
 router.get('/', async (req, res) => {
   try {
-    const { status } = req.query;
+    const { status, adopter_id } = req.query;
     let query = `
       SELECT a.*, p.Pet_Name, p.Species, p.Breed, p.Photo_URL,
-             ad.Full_Name as Adopter_Name, ad.Email as Adopter_Email
+             ad.Full_Name as Adopter_Name, ad.Email as Adopter_Email, ad.Contact_No, ad.Address
       FROM Adoption a
       JOIN Pet p ON a.Pet_ID = p.Pet_ID
       JOIN Adopter ad ON a.Adopter_ID = ad.Adopter_ID
@@ -16,12 +16,17 @@ router.get('/', async (req, res) => {
     `;
     const params = [];
 
+    if (adopter_id) {
+      query += ' AND a.Adopter_ID = ?';
+      params.push(adopter_id);
+    }
+
     if (status) {
       query += ' AND a.Status = ?';
       params.push(status);
     }
 
-    query += ' ORDER BY a.created_at DESC';
+    query += ' ORDER BY a.Application_Date DESC';
 
     const [rows] = await pool.query(query, params);
     res.json(rows);

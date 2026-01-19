@@ -14,6 +14,9 @@ function PetDetail() {
   const [isFavorited, setIsFavorited] = useState(false);
   const [favoriteId, setFavoriteId] = useState(null);
   const [applying, setApplying] = useState(false);
+  const [showNoteModal, setShowNoteModal] = useState(false);
+  const [favoriteNote, setFavoriteNote] = useState('');
+  const [showAdoptModal, setShowAdoptModal] = useState(false);
 
   useEffect(() => {
     fetchPetData();
@@ -45,11 +48,15 @@ function PetDetail() {
     }
   };
 
-  const handleAdopt = async () => {
+  const handleAdopt = () => {
     if (!user) {
       navigate('/login');
       return;
     }
+    setShowAdoptModal(true);
+  };
+
+  const confirmAdopt = async () => {
     setApplying(true);
     try {
       await createAdoption({
@@ -57,6 +64,7 @@ function PetDetail() {
         Adopter_ID: user.Adopter_ID,
         Adoption_Fee: 2000.00,
       });
+      setShowAdoptModal(false);
       alert('Application submitted successfully!');
       fetchPetData();
     } catch (error) {
@@ -71,16 +79,30 @@ function PetDetail() {
       navigate('/login');
       return;
     }
-    try {
-      if (isFavorited) {
+    if (isFavorited) {
+      try {
         await removeFavorite(favoriteId);
         setIsFavorited(false);
         setFavoriteId(null);
-      } else {
-        const res = await addFavorite({ Adopter_ID: user.Adopter_ID, Pet_ID: pet.Pet_ID });
-        setIsFavorited(true);
-        setFavoriteId(res.data.Favorite_ID);
+      } catch (error) {
+        console.error('Error:', error);
       }
+    } else {
+      setShowNoteModal(true);
+    }
+  };
+
+  const handleAddFavoriteWithNote = async () => {
+    try {
+      const res = await addFavorite({
+        Adopter_ID: user.Adopter_ID,
+        Pet_ID: pet.Pet_ID,
+        Notes: favoriteNote || null
+      });
+      setIsFavorited(true);
+      setFavoriteId(res.data.Favorite_ID);
+      setShowNoteModal(false);
+      setFavoriteNote('');
     } catch (error) {
       console.error('Error:', error);
     }
@@ -183,6 +205,68 @@ function PetDetail() {
                 {visit.General_Notes && <p><strong>Notes:</strong> {visit.General_Notes}</p>}
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {showNoteModal && (
+        <div className="modal-overlay" onClick={() => setShowNoteModal(false)}>
+          <div className="favorite-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Add to Favorites</h3>
+            <p>Add a note about why you like {pet.Pet_Name} (optional)</p>
+            <textarea
+              value={favoriteNote}
+              onChange={(e) => setFavoriteNote(e.target.value)}
+              placeholder="e.g., Love the friendly temperament, would be great with kids..."
+              rows={3}
+            />
+            <div className="modal-actions">
+              <button className="btn-cancel" onClick={() => { setShowNoteModal(false); setFavoriteNote(''); }}>
+                Cancel
+              </button>
+              <button className="btn-save" onClick={handleAddFavoriteWithNote}>
+                Add to Favorites
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showAdoptModal && (
+        <div className="modal-overlay" onClick={() => !applying && setShowAdoptModal(false)}>
+          <div className="adopt-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="adopt-modal-header">
+              <img
+                src={pet.Photo_URL || 'https://via.placeholder.com/80?text=Pet'}
+                alt={pet.Pet_Name}
+              />
+              <div>
+                <h3>Adopt {pet.Pet_Name}?</h3>
+                <p>{pet.Breed} · {pet.Species}</p>
+              </div>
+            </div>
+            <div className="adopt-modal-body">
+              <p>You are about to submit an adoption application for <strong>{pet.Pet_Name}</strong>.</p>
+              <div className="adopt-details">
+                <div className="adopt-detail-item">
+                  <span className="label">Adoption Fee:</span>
+                  <span className="value">₱2,000.00</span>
+                </div>
+                <div className="adopt-detail-item">
+                  <span className="label">Status:</span>
+                  <span className="value">Pending Review</span>
+                </div>
+              </div>
+              <p className="adopt-note">Our team will review your application and contact you within 2-3 business days.</p>
+            </div>
+            <div className="modal-actions">
+              <button className="btn-cancel" onClick={() => setShowAdoptModal(false)} disabled={applying}>
+                Cancel
+              </button>
+              <button className="btn-confirm-adopt" onClick={confirmAdopt} disabled={applying}>
+                {applying ? 'Submitting...' : 'Confirm Application'}
+              </button>
+            </div>
           </div>
         </div>
       )}

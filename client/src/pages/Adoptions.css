@@ -131,21 +131,21 @@
   display: inline-block;
 }
 
-.status-badge.applied {
-  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
-  color: #1D4ED8;
+.status-badge.pending {
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  color: #B45309;
 }
 .status-badge.completed {
   background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
   color: #047857;
 }
+.status-badge.cancelled {
+  background: linear-gradient(135deg, #E5E7EB, #D1D5DB);
+  color: #4B5563;
+}
 .status-badge.returned {
   background: linear-gradient(135deg, #FEF3C7, #FDE68A);
   color: #B45309;
-}
-.status-badge.cancelled {
-  background: linear-gradient(135deg, #FEE2E2, #FECACA);
-  color: #DC2626;
 }
 
 .approval-badge.pending {

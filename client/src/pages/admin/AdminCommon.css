@@ -375,6 +375,7 @@
 .badge.applied { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); color: #1D4ED8; }
 .badge.completed { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); color: #047857; }
 .badge.cancelled { background: linear-gradient(135deg, #E5E7EB, #D1D5DB); color: #4B5563; }
+.badge.returned { background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #B45309; }
 .badge.checkup { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); color: #1D4ED8; }
 .badge.vaccination { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); color: #047857; }
 .badge.surgery { background: linear-gradient(135deg, #FCE7F3, #FBCFE8); color: #BE185D; }
@@ -458,6 +459,16 @@
 .btn-complete:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(29, 78, 216, 0.2);
+}
+
+.btn-return {
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  color: #B45309;
+}
+
+.btn-return:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(180, 83, 9, 0.2);
 }
 
 /* Modal */
@@ -660,6 +671,82 @@
 .crop-controls small {
   color: var(--text-light);
   font-size: 0.8rem;
+}
+
+/* Inline Fee Editing */
+.inline-edit {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.fee-input {
+  width: 80px;
+  padding: 0.4rem 0.6rem;
+  border: 2px solid var(--secondary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.fee-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+}
+
+.fee-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-icon-sm {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-icon-sm svg {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-icon-sm.btn-edit {
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+  color: #1D4ED8;
+}
+
+.btn-icon-sm.btn-edit:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
+}
+
+.btn-icon-sm.btn-save {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+  color: #047857;
+}
+
+.btn-icon-sm.btn-save:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(4, 120, 87, 0.3);
+}
+
+.btn-icon-sm.btn-cancel {
+  background: linear-gradient(135deg, #FEE2E2, #FECACA);
+  color: #DC2626;
+}
+
+.btn-icon-sm.btn-cancel:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
 }
 
 /* Empty state */

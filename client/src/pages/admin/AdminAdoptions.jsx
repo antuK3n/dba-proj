@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
-import { Info } from 'lucide-react';
-import { getAdminAdoptions, cancelAdoption, completeAdoption, deleteAdminAdoption } from '../../services/adminApi';
+import { Info, Pencil, Check, X } from 'lucide-react';
+import { getAdminAdoptions, updateAdoption, cancelAdoption, completeAdoption, returnAdoption, deleteAdminAdoption } from '../../services/adminApi';
 import './AdminCommon.css';
 
 function AdminAdoptions() {
@@ -8,6 +8,8 @@ function AdminAdoptions() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [expandedRows, setExpandedRows] = useState(new Set());
+  const [editingFee, setEditingFee] = useState(null);
+  const [feeValue, setFeeValue] = useState('');
 
   const toggleRowExpansion = (id) => {
     setExpandedRows(prev => {
@@ -56,6 +58,17 @@ function AdminAdoptions() {
     }
   };
 
+  const handleReturn = async (id) => {
+    if (window.confirm('Are you sure you want to mark this adoption as returned? The pet will be set back to Available.')) {
+      try {
+        await returnAdoption(id);
+        fetchAdoptions();
+      } catch (error) {
+        alert('Failed to return adoption');
+      }
+    }
+  };
+
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this adoption record?')) {
       try {
@@ -64,6 +77,27 @@ function AdminAdoptions() {
       } catch (error) {
         alert('Failed to delete adoption');
       }
+    }
+  };
+
+  const startEditFee = (adoption) => {
+    setEditingFee(adoption.Adoption_ID);
+    setFeeValue(adoption.Adoption_Fee || '');
+  };
+
+  const cancelEditFee = () => {
+    setEditingFee(null);
+    setFeeValue('');
+  };
+
+  const saveFee = async (id) => {
+    try {
+      await updateAdoption(id, { Adoption_Fee: parseFloat(feeValue) || 0 });
+      setEditingFee(null);
+      setFeeValue('');
+      fetchAdoptions();
+    } catch (error) {
+      alert('Failed to update fee');
     }
   };
 
@@ -94,6 +128,9 @@ function AdminAdoptions() {
         </button>
         <button className={filter === 'cancelled' ? 'active' : ''} onClick={() => setFilter('cancelled')}>
           Cancelled ({adoptions.filter(a => a.Status === 'Cancelled').length})
+        </button>
+        <button className={filter === 'returned' ? 'active' : ''} onClick={() => setFilter('returned')}>
+          Returned ({adoptions.filter(a => a.Status === 'Returned').length})
         </button>
       </div>
 
@@ -135,7 +172,34 @@ function AdminAdoptions() {
                     </div>
                   </td>
                   <td>{adoption.Contact_No || '-'}</td>
-                  <td>P{adoption.Adoption_Fee?.toLocaleString() || '0'}</td>
+                  <td>
+                    {editingFee === adoption.Adoption_ID ? (
+                      <div className="inline-edit">
+                        <input
+                          type="number"
+                          value={feeValue}
+                          onChange={(e) => setFeeValue(e.target.value)}
+                          className="fee-input"
+                          autoFocus
+                        />
+                        <button className="btn-icon-sm btn-save" onClick={() => saveFee(adoption.Adoption_ID)} title="Save">
+                          <Check size={14} />
+                        </button>
+                        <button className="btn-icon-sm btn-cancel" onClick={cancelEditFee} title="Cancel">
+                          <X size={14} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="fee-display">
+                        <span>P{adoption.Adoption_Fee?.toLocaleString() || '0'}</span>
+                        {adoption.Status === 'Pending' && (
+                          <button className="btn-icon-sm btn-edit" onClick={() => startEditFee(adoption)} title="Edit fee">
+                            <Pencil size={14} />
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </td>
                   <td>
                     <span className={`badge ${adoption.Status.toLowerCase()}`}>
                       {adoption.Status}
@@ -156,6 +220,9 @@ function AdminAdoptions() {
                           <button className="btn-complete" onClick={() => handleComplete(adoption.Adoption_ID)}>Complete</button>
                           <button className="btn-deny" onClick={() => handleCancel(adoption.Adoption_ID)}>Cancel</button>
                         </>
+                      )}
+                      {adoption.Status === 'Completed' && (
+                        <button className="btn-return" onClick={() => handleReturn(adoption.Adoption_ID)}>Return</button>
                       )}
                       <button className="btn-delete" onClick={() => handleDelete(adoption.Adoption_ID)}>Delete</button>
                     </div>

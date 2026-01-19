@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
 // Add to favorites
 router.post('/', async (req, res) => {
   try {
-    const { Adopter_ID, Pet_ID } = req.body;
+    const { Adopter_ID, Pet_ID, Notes } = req.body;
 
     // Check if already favorited
     const [existing] = await pool.query(
@@ -44,8 +44,8 @@ router.post('/', async (req, res) => {
     }
 
     const [result] = await pool.query(
-      'INSERT INTO Favorite (Adopter_ID, Pet_ID) VALUES (?, ?)',
-      [Adopter_ID, Pet_ID]
+      'INSERT INTO Favorite (Adopter_ID, Pet_ID, Notes) VALUES (?, ?, ?)',
+      [Adopter_ID, Pet_ID, Notes || null]
     );
 
     const [newFavorite] = await pool.query(
@@ -56,6 +56,27 @@ router.post('/', async (req, res) => {
       [result.insertId]
     );
     res.status(201).json(newFavorite[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Update favorite notes
+router.put('/:id', async (req, res) => {
+  try {
+    const { Notes } = req.body;
+    await pool.query(
+      'UPDATE Favorite SET Notes = ? WHERE Favorite_ID = ?',
+      [Notes, req.params.id]
+    );
+    const [updated] = await pool.query(
+      `SELECT f.*, p.*
+       FROM Favorite f
+       JOIN Pet p ON f.Pet_ID = p.Pet_ID
+       WHERE f.Favorite_ID = ?`,
+      [req.params.id]
+    );
+    res.json(updated[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

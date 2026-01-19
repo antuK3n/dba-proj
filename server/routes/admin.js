@@ -354,7 +354,7 @@ router.get('/adoptions', async (req, res) => {
     const { status } = req.query;
     let query = `
       SELECT a.*, p.Pet_Name, p.Species, p.Breed, p.Photo_URL,
-             ad.Full_Name as Adopter_Name, ad.Email as Adopter_Email, ad.Contact_No
+             ad.Full_Name as Adopter_Name, ad.Email as Adopter_Email, ad.Contact_No, ad.Address
       FROM Adoption a
       JOIN Pet p ON a.Pet_ID = p.Pet_ID
       JOIN Adopter ad ON a.Adopter_ID = ad.Adopter_ID
@@ -370,6 +370,34 @@ router.get('/adoptions', async (req, res) => {
     query += ' ORDER BY a.Adoption_ID DESC';
     const [rows] = await pool.query(query, params);
     res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.put('/adoptions/:id', async (req, res) => {
+  try {
+    const { Adoption_Fee } = req.body;
+    const [adoption] = await pool.query('SELECT Adoption_ID FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
+    if (adoption.length === 0) {
+      return res.status(404).json({ error: 'Adoption not found' });
+    }
+
+    await pool.query(
+      `UPDATE Adoption SET Adoption_Fee = ? WHERE Adoption_ID = ?`,
+      [Adoption_Fee, req.params.id]
+    );
+
+    const [updated] = await pool.query(
+      `SELECT a.*, p.Pet_Name, p.Species, p.Breed, p.Photo_URL,
+              ad.Full_Name as Adopter_Name, ad.Email as Adopter_Email, ad.Contact_No, ad.Address
+       FROM Adoption a
+       JOIN Pet p ON a.Pet_ID = p.Pet_ID
+       JOIN Adopter ad ON a.Adopter_ID = ad.Adopter_ID
+       WHERE a.Adoption_ID = ?`,
+      [req.params.id]
+    );
+    res.json(updated[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -410,6 +438,37 @@ router.put('/adoptions/:id/complete', async (req, res) => {
     // Note: Pet status is automatically set to 'Adopted' by database trigger
     await pool.query(
       `UPDATE Adoption SET Status = 'Completed' WHERE Adoption_ID = ?`,
+      [req.params.id]
+    );
+
+    const [updated] = await pool.query(
+      `SELECT a.*, p.Pet_Name FROM Adoption a JOIN Pet p ON a.Pet_ID = p.Pet_ID WHERE a.Adoption_ID = ?`,
+      [req.params.id]
+    );
+    res.json(updated[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.put('/adoptions/:id/return', async (req, res) => {
+  try {
+    const [adoption] = await pool.query('SELECT Adoption_ID, Status FROM Adoption WHERE Adoption_ID = ?', [req.params.id]);
+    if (adoption.length === 0) {
+      return res.status(404).json({ error: 'Adoption not found' });
+    }
+    if (adoption[0].Status !== 'Completed') {
+      return res.status(400).json({ error: 'Only completed adoptions can be returned' });
+    }
+
+    await pool.query(
+      `UPDATE Adoption SET Status = 'Returned' WHERE Adoption_ID = ?`,
+      [req.params.id]
+    );
+
+    // Set pet back to Available
+    await pool.query(
+      `UPDATE Pet p JOIN Adoption a ON p.Pet_ID = a.Pet_ID SET p.Status = 'Available' WHERE a.Adoption_ID = ?`,
       [req.params.id]
     );
 

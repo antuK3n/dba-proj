@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getAdoptions, updateAdoption } from '../services/api';
+import { getAdoptions } from '../services/api';
 import './Adoptions.css';
 
 function Adoptions() {
@@ -11,30 +11,19 @@ function Adoptions() {
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
-    fetchAdoptions();
-  }, []);
+    if (user) {
+      fetchAdoptions();
+    }
+  }, [user]);
 
   const fetchAdoptions = async () => {
     try {
-      const res = await getAdoptions();
+      const res = await getAdoptions({ adopter_id: user.Adopter_ID });
       setAdoptions(res.data);
     } catch (error) {
       console.error('Error:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleStatusUpdate = async (id, status) => {
-    try {
-      await updateAdoption(id, {
-        Status: status,
-        Adoption_Date: status === 'Completed' ? new Date().toISOString().split('T')[0] : null,
-        Contract_Signed: status === 'Completed' ? 'Yes' : 'No',
-      });
-      fetchAdoptions();
-    } catch (error) {
-      alert('Failed to update status');
     }
   };
 
@@ -48,8 +37,8 @@ function Adoptions() {
   return (
     <div className="adoptions-page">
       <div className="page-header">
-        <h1>Adoption Applications</h1>
-        <p>Manage and track all adoption applications</p>
+        <h1>My Adoptions</h1>
+        <p>Track the status of your adoption applications</p>
       </div>
 
       <div className="filters">
@@ -76,6 +65,12 @@ function Adoptions() {
           onClick={() => setFilter('cancelled')}
         >
           Cancelled ({adoptions.filter(a => a.Status === 'Cancelled').length})
+        </button>
+        <button
+          className={filter === 'returned' ? 'active' : ''}
+          onClick={() => setFilter('returned')}
+        >
+          Returned ({adoptions.filter(a => a.Status === 'Returned').length})
         </button>
       </div>
 
@@ -130,22 +125,6 @@ function Adoptions() {
                   </td>
                   <td>
                     <div className="actions">
-                      {adoption.Status === 'Pending' && (
-                        <>
-                          <button
-                            className="btn-complete"
-                            onClick={() => handleStatusUpdate(adoption.Adoption_ID, 'Completed')}
-                          >
-                            Complete
-                          </button>
-                          <button
-                            className="btn-deny"
-                            onClick={() => handleStatusUpdate(adoption.Adoption_ID, 'Cancelled')}
-                          >
-                            Cancel
-                          </button>
-                        </>
-                      )}
                       <Link to={`/pets/${adoption.Pet_ID}`} className="btn-view">
                         View Pet
                       </Link>

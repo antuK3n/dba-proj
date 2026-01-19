@@ -56,8 +56,10 @@ export const deleteAdminAdopter = (id) => adminApi.delete(`/adopters/${id}`);
 
 // Adoptions
 export const getAdminAdoptions = (params) => adminApi.get('/adoptions', { params });
+export const updateAdoption = (id, data) => adminApi.put(`/adoptions/${id}`, data);
 export const cancelAdoption = (id) => adminApi.put(`/adoptions/${id}/cancel`);
 export const completeAdoption = (id) => adminApi.put(`/adoptions/${id}/complete`);
+export const returnAdoption = (id) => adminApi.put(`/adoptions/${id}/return`);
 export const deleteAdminAdoption = (id) => adminApi.delete(`/adoptions/${id}`);
 
 // Reports (JOINs and Stored Procedures)

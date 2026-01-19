@@ -316,7 +316,7 @@ function Profile() {
                   <h3>{adoption.Pet_Name}</h3>
                   <p>{adoption.Species} - {adoption.Breed}</p>
                   <p className="application-date">
-                    Applied: {new Date(adoption.created_at).toLocaleDateString()}
+                    Applied: {adoption.Application_Date ? new Date(adoption.Application_Date).toLocaleDateString() : 'N/A'}
                   </p>
                 </div>
                 <div className="application-status">

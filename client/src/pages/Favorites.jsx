@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { Pencil, Check, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { getAdopterFavorites, removeFavorite } from '../services/api';
+import { getAdopterFavorites, updateFavorite, removeFavorite } from '../services/api';
 import PetCard from '../components/PetCard';
 import './Favorites.css';
 
@@ -8,6 +9,8 @@ function Favorites() {
   const { user } = useAuth();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingNoteId, setEditingNoteId] = useState(null);
+  const [noteValue, setNoteValue] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -30,6 +33,29 @@ function Favorites() {
     try {
       await removeFavorite(favoriteId);
       setFavorites(favorites.filter(f => f.Favorite_ID !== favoriteId));
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const startEditNote = (fav) => {
+    setEditingNoteId(fav.Favorite_ID);
+    setNoteValue(fav.Notes || '');
+  };
+
+  const cancelEditNote = () => {
+    setEditingNoteId(null);
+    setNoteValue('');
+  };
+
+  const saveNote = async (favoriteId) => {
+    try {
+      await updateFavorite(favoriteId, { Notes: noteValue || null });
+      setFavorites(favorites.map(f =>
+        f.Favorite_ID === favoriteId ? { ...f, Notes: noteValue || null } : f
+      ));
+      setEditingNoteId(null);
+      setNoteValue('');
     } catch (error) {
       console.error('Error:', error);
     }
@@ -59,12 +85,34 @@ function Favorites() {
                   <span className="meta-label">Added:</span>
                   <span className="meta-value">{fav.Date_Added ? new Date(fav.Date_Added).toLocaleDateString() : 'Unknown'}</span>
                 </span>
-                {fav.Notes && (
-                  <span className="meta-item notes">
-                    <span className="meta-label">Notes:</span>
-                    <span className="meta-value">{fav.Notes}</span>
-                  </span>
-                )}
+                <div className="meta-item notes-section">
+                  <span className="meta-label">Notes:</span>
+                  {editingNoteId === fav.Favorite_ID ? (
+                    <div className="note-edit">
+                      <textarea
+                        value={noteValue}
+                        onChange={(e) => setNoteValue(e.target.value)}
+                        placeholder="Add a note about this pet..."
+                        rows={2}
+                      />
+                      <div className="note-edit-actions">
+                        <button className="btn-icon btn-save" onClick={() => saveNote(fav.Favorite_ID)} title="Save">
+                          <Check size={16} />
+                        </button>
+                        <button className="btn-icon btn-cancel" onClick={cancelEditNote} title="Cancel">
+                          <X size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="note-display">
+                      <span className="meta-value">{fav.Notes || 'No notes'}</span>
+                      <button className="btn-icon btn-edit" onClick={() => startEditNote(fav)} title="Edit note">
+                        <Pencil size={14} />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
               <button
                 onClick={() => handleRemove(fav.Favorite_ID)}

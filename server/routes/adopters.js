@@ -127,7 +127,7 @@ router.get('/:id/adoptions', async (req, res) => {
        FROM Adoption a
        JOIN Pet p ON a.Pet_ID = p.Pet_ID
        WHERE a.Adopter_ID = ?
-       ORDER BY a.created_at DESC`,
+       ORDER BY a.Application_Date DESC`,
       [req.params.id]
     );
     res.json(rows);

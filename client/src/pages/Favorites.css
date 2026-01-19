@@ -99,6 +99,97 @@
   color: var(--text-light);
 }
 
+/* Notes Section */
+.notes-section {
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.note-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.note-display .meta-value {
+  flex: 1;
+  font-style: italic;
+}
+
+.note-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.note-edit textarea {
+  width: 100%;
+  padding: 0.7rem;
+  border: 2px solid #E5E7EB;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.note-edit textarea:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.15);
+}
+
+.note-edit-actions {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+
+.btn-icon {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-icon.btn-edit {
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+  color: #1D4ED8;
+}
+
+.btn-icon.btn-edit:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
+}
+
+.btn-icon.btn-save {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+  color: #047857;
+}
+
+.btn-icon.btn-save:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(4, 120, 87, 0.3);
+}
+
+.btn-icon.btn-cancel {
+  background: linear-gradient(135deg, #FEE2E2, #FECACA);
+  color: #DC2626;
+}
+
+.btn-icon.btn-cancel:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
 .btn-remove {
   margin-top: 0.8rem;
   padding: 1rem;

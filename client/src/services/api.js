@@ -63,6 +63,7 @@ export const deleteVaccination = (id) => api.delete(`/vaccinations/${id}`);
 // Favorites
 export const getFavorites = (params) => api.get('/favorites', { params });
 export const addFavorite = (data) => api.post('/favorites', data);
+export const updateFavorite = (id, data) => api.put(`/favorites/${id}`, data);
 export const removeFavorite = (id) => api.delete(`/favorites/${id}`);
 export const checkFavorite = (adopterId, petId) => api.get(`/favorites/check/${adopterId}/${petId}`);
 

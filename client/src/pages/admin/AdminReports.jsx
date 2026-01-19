@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { getPendingApplications, getAdoptionReport, getMonthlyStats, completeAdoption, cancelAdoption } from '../../services/adminApi';
+import { getAdoptionReport, getMonthlyStats } from '../../services/adminApi';
 import './AdminCommon.css';
 import './AdminReports.css';
 
 function AdminReports() {
-  const [activeTab, setActiveTab] = useState('pending');
-  const [pendingApps, setPendingApps] = useState([]);
+  const [activeTab, setActiveTab] = useState('report');
   const [adoptionReport, setAdoptionReport] = useState([]);
   const [monthlyStats, setMonthlyStats] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -13,23 +12,9 @@ function AdminReports() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
 
   useEffect(() => {
-    if (activeTab === 'pending') fetchPendingApplications();
     if (activeTab === 'report') fetchAdoptionReport();
     if (activeTab === 'stats') fetchMonthlyStats();
   }, [activeTab, selectedYear, selectedMonth]);
-
-  const fetchPendingApplications = async () => {
-    setLoading(true);
-    try {
-      const res = await getPendingApplications();
-      console.log('Pending Applications API Response:', res.data);
-      setPendingApps(res.data);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const fetchAdoptionReport = async () => {
     setLoading(true);
@@ -52,26 +37,6 @@ function AdminReports() {
       console.error('Error:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleComplete = async (id) => {
-    try {
-      await completeAdoption(id);
-      fetchPendingApplications();
-    } catch (error) {
-      alert('Failed to complete adoption');
-    }
-  };
-
-  const handleCancel = async (id) => {
-    if (window.confirm('Are you sure you want to cancel this application?')) {
-      try {
-        await cancelAdoption(id);
-        fetchPendingApplications();
-      } catch (error) {
-        alert('Failed to cancel application');
-      }
     }
   };
 
@@ -99,12 +64,6 @@ function AdminReports() {
 
       <div className="report-tabs">
         <button
-          className={`report-tab ${activeTab === 'pending' ? 'active' : ''}`}
-          onClick={() => setActiveTab('pending')}
-        >
-          Pending Applications
-        </button>
-        <button
           className={`report-tab ${activeTab === 'report' ? 'active' : ''}`}
           onClick={() => setActiveTab('report')}
         >
@@ -119,71 +78,6 @@ function AdminReports() {
       </div>
 
       {loading && <div className="admin-loading">Loading...</div>}
-
-      {/* Pending Adoption Applications */}
-      {activeTab === 'pending' && !loading && (
-        <div className="report-section">
-          <div className="report-header">
-            <h2>Pending Adoption Applications</h2>
-          </div>
-
-          {pendingApps.length === 0 ? (
-            <div className="no-data">No pending applications</div>
-          ) : (
-            <div className="data-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Applied</th>
-                    <th>Pet</th>
-                    <th>Applicant</th>
-                    <th>Contact</th>
-                    <th>Housing</th>
-                    <th>Experience</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pendingApps.map((app) => (
-                    <tr key={app.Adoption_ID}>
-                      <td>#{app.Adoption_ID}</td>
-                      <td>{formatDate(app.Application_Date)}</td>
-                      <td>
-                        <strong>{app.Pet_Name}</strong>
-                        <br />
-                        <span className="text-small">{app.Species} - {app.Breed}</span>
-                      </td>
-                      <td>
-                        <strong>{app.Full_Name}</strong>
-                        <br />
-                        <span className="text-small">{app.Email}</span>
-                      </td>
-                      <td>{app.Contact_No}</td>
-                      <td>{app.Housing_Type}</td>
-                      <td>
-                        <span className={`badge ${app.Experience_Level.toLowerCase()}`}>
-                          {app.Experience_Level}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="action-btns">
-                          <button className="btn-complete" onClick={() => handleComplete(app.Adoption_ID)}>
-                            Approve
-                          </button>
-                          <button className="btn-deny" onClick={() => handleCancel(app.Adoption_ID)}>
-                            Reject
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      )}
 
       {/* Adoption Management Report */}
       {activeTab === 'report' && !loading && (
